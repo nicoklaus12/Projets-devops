@@ -1,0 +1,25 @@
+- hosts: backend
+  become: true
+  tasks:
+    - name: Install Node.js
+      apt:
+        name: [nodejs, npm]
+        state: present
+    
+    - name: Create app directory
+      file:
+        path: /opt/app
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+    
+    - name: Create simple API
+      copy:
+        dest: /opt/app/server.js
+        content: |
+          const express = require('express');
+          const app = express();
+          app.get('/', (req, res) => {
+              res.json({ message: 'Hello from Backend!', server: process.env.HOSTNAME });
+          });
+          app.listen(3000, () => console.log('Server running on port 3000'));

@@ -1,0 +1,19 @@
+- hosts: monitoring
+  become: true
+  tasks:
+    - name: Install Prometheus
+      apt:
+        name: prometheus
+        state: present
+    
+    - name: Install Grafana
+      apt:
+        name: grafana
+        state: present
+    
+    - name: Start services
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: true
+      loop: [prometheus, grafana]

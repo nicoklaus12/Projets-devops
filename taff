@@ -1,0 +1,3130 @@
+Collaboration en live NK!!!!!!
+nicoklaus@nicoklaus-Nitro-AN515-54:~$ sudo snap installcode --classic
+erreur : commande "installcode" inconnue, voir « snap help ».
+nicoklaus@nicoklaus-Nitro-AN515-54:~$ sudo snap install code --classic
+code e3a5acfb from Visual Studio Code (vscode✓) installed
+nicoklaus@nicoklaus-Nitro-AN515-54:~$ ^C
+nicoklaus@nicoklaus-Nitro-AN515-54:~$ 
+
+qm list 
+qm stop 100
+
+qm start 100
+
+cd ~/ansible-devops && ansible-playbook -i inventory.ini node_exporter.yml
+
+PLAY RECAP *********************************************************************
+192.168.122.200            : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+192.168.122.201            : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+192.168.122.202            : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+192.168.122.203            : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+192.168.122.206            : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+ansible-playbook -i inventory.ini monitoring.yml
+
+
+TASK [Gathering Facts] *********************************************************
+ok: [192.168.122.202]
+
+TASK [Install dependencies] ****************************************************
+ok: [192.168.122.202]
+
+TASK [Install Prometheus] ******************************************************
+ok: [192.168.122.202]
+
+TASK [Install Grafana] *********************************************************
+ok: [192.168.122.202]
+
+PLAY RECAP *********************************************************************
+192.168.122.202            : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+ansible-playbook -i inventory.ini jenkins.yml
+
+icoklaus@nicoklaus-Nitro-AN515-54:~/ansible-devops$ ansible-playbook -i inventory.ini jenkins.yml
+
+PLAY [ci_server] ***************************************************************
+
+TASK [Préflight | terminer une config dpkg interrompue] ************************
+ok: [192.168.122.200]
+
+TASK [Préflight | corriger dépendances cassées] ********************************
+ok: [192.168.122.200]
+
+TASK [Installer Java 17 (requis par Jenkins)] **********************************
+ok: [192.168.122.200]
+
+TASK [Ajouter la clé du dépôt Jenkins] *****************************************
+ok: [192.168.122.200]
+
+TASK [Ajouter le dépôt Jenkins LTS] ********************************************
+ok: [192.168.122.200]
+
+TASK [Installer Jenkins] *******************************************************
+ok: [192.168.122.200]
+
+TASK [Démarrer Jenkins au boot et maintenant] **********************************
+ok: [192.168.122.200]
+
+PLAY RECAP *********************************************************************
+192.168.122.200            : ok=7    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+ible-playbook -i inventory.ini bastion.yml
+
+# Configurer le backup server
+ansible-playbook -i inventory.ini backup.yml
+
+nicoklaus@nicoklaus-Nitro-AN515-54:~/ansible-devops$ ansible-playbook -i inventory.ini bastion.yml
+
+PLAY [bastion_host] ************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [192.168.122.203]
+
+TASK [Installer les outils de sécurité] ****************************************
+ok: [192.168.122.203]
+
+TASK [Configurer le firewall] **************************************************
+ok: [192.168.122.203]
+
+TASK [Autoriser SSH] ***********************************************************
+ok: [192.168.122.203]
+
+TASK [Autoriser le trafic sortant] *********************************************
+ok: [192.168.122.203]
+
+TASK [Démarrer UFW] ************************************************************
+ok: [192.168.122.203]
+
+PLAY RECAP *********************************************************************
+192.168.122.203            : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+nicoklaus@nicoklaus-Nitro-AN515-54:~/ansible-devops$ 
+
+
+PLAY [backup_server] ***************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************
+ok: [192.168.122.206]
+
+TASK [Installer les outils de backup] **********************************************************************
+ok: [192.168.122.206]
+
+TASK [Créer le dossier de backup] **************************************************************************
+ok: [192.168.122.206]
+
+TASK [Créer le script de backup] ***************************************************************************
+ok: [192.168.122.206]
+
+TASK [Configurer la tâche cron] ****************************************************************************
+ok: [192.168.122.206]
+
+PLAY RECAP *************************************************************************************************
+192.168.122.206            : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+curl http://192.168.122.201/
+
+# Tester l'application
+curl http://192.168.122.201/
+
+# Vérifier Jenkins
+curl http://192.168.122.200:8080
+
+# Vérifier Prometheus
+curl http://192.168.122.202:9090
+
+# Vérifier Grafana
+curl http://192.168.122.202:3000
+
+
+
+ansible-playbook -i inventory.ini jenkins-pipeline.yml
+
+nicoklaus@nicoklaus-Nitro-AN515-54:~/ansible-devops$ ansible-playbook -i inventory.ini jenkins-pipeline.yml
+
+PLAY [ci_server] *******************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************
+ok: [192.168.122.200]
+
+TASK [Installer les dépendances pour le pipeline] **********************************************************
+
+changed: [192.168.122.200]
+
+TASK [Créer le répertoire des jobs Jenkins] ****************************************************************
+ok: [192.168.122.200]
+
+TASK [Créer le pipeline simple] ****************************************************************************
+fatal: [192.168.122.200]: FAILED! => {"changed": false, "checksum": "d1b4546142e2a9187b0d154e19161e99a71fd97d", "msg": "Destination directory /var/lib/jenkins/jobs/demo-pipeline does not exist"}
+
+PLAY RECAP *************************************************************************************************
+192.168.122.200            : ok=3    changed=1    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+nicoklaus@nicoklaus-Nitro-AN515-54:~/ansible-devops$ 
+
+
+nicoklaus@nicoklaus-Nitro-AN515-54:~/ansible-devops$ ansible-playbook -i inventory.ini jenkins-pipeline.yml
+
+PLAY [ci_server] *******************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************
+ok: [192.168.122.200]
+
+TASK [Installer les dépendances pour le pipeline] **********************************************************
+
+changed: [192.168.122.200]
+
+TASK [Créer le répertoire des jobs Jenkins] ****************************************************************
+ok: [192.168.122.200]
+
+TASK [Créer le pipeline simple] ****************************************************************************
+fatal: [192.168.122.200]: FAILED! => {"changed": false, "checksum": "d1b4546142e2a9187b0d154e19161e99a71fd97d", "msg": "Destination directory /var/lib/jenkins/jobs/demo-pipeline does not exist"}
+
+PLAY RECAP *************************************************************************************************
+192.168.122.200            : ok=3    changed=1    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+nicoklaus@nicoklaus-Nitro-AN515-54:~/ansible-devops$ 
+
+
+
+nicoklaus@nicoklaus-Nitro-AN515-54:~/ansible-devops$ ansible-playbook -i inventory.ini jenkins-pipeline.yml
+
+PLAY [ci_server] *******************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************
+ok: [192.168.122.200]
+
+TASK [Installer les dépendances pour le pipeline] **********************************************************
+ok: [192.168.122.200]
+
+TASK [Créer le répertoire des jobs Jenkins] ****************************************************************
+ok: [192.168.122.200]
+
+TASK [Créer le répertoire du job demo-pipeline] ************************************************************
+changed: [192.168.122.200]
+
+TASK [Créer le pipeline simple] ****************************************************************************
+changed: [192.168.122.200]
+
+TASK [Redémarrer Jenkins] **********************************************************************************
+changed: [192.168.122.200]
+
+PLAY RECAP *************************************************************************************************
+192.168.122.200            : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+nicoklaus@nicoklaus-Nitro-AN515-54:~/ansible-devops$ ^C
+nicoklaus@nicoklaus-Nitro-AN515-54:~/ansible-devops$ 
+
+# 1. Tester l'application
+curl http://192.168.122.201/
+
+# 2. Vérifier Jenkins
+curl http://192.168.122.200:8080
+
+# 3. Vérifier Prometheus
+curl http://192.168.122.202:9090
+
+# 4. Vérifier Grafana
+curl http://192.168.122.202:3000
+
+curl http://192.168.122.201/
+
+# Tester la connectivité SSH
+ssh ubuntu@192.168.122.203
+
+# Vérifier le firewall UFW
+ssh ubuntu@192.168.122.203 "sudo ufw status"
+
+# Vérifier Fail2ban
+ssh ubuntu@192.168.122.203 "sudo fail2ban-client status"
+
+# Vérifier les services
+ssh ubuntu@192.168.122.203 "sudo systemctl status ufw fail2ban"
+
+
+ubuntu@bastion-host:~$ sudo systemctl status fail2ban
+○ fail2ban.service - Fail2Ban Service
+     Loaded: loaded (/lib/systemd/system/fail2ban.service; disabled; vendor preset: enabled)
+     Active: inactive (dead)
+       Docs: man:fail2ban(1)
+ubuntu@bastion-host:~$ 
+
+# Démarrer Fail2ban
+sudo systemctl start fail2ban
+
+# Activer Fail2ban au démarrage
+sudo systemctl enable fail2ban
+
+# Vérifier le statut
+sudo systemctl status fail2ban
+
+# Vérifier la configuration
+sudo fail2ban-client status
+
+ubuntu@bastion-host:~$ sudo systemctl status fail2ban-client 
+Unit fail2ban-client.service could not be found.
+ubuntu@bastion-host:~$ sudo systemctl status fail2ban
+○ fail2ban.service - Fail2Ban Service
+     Loaded: loaded (/lib/systemd/system/fail2ban.service; disabled; vendor preset: enabled)
+     Active: inactive (dead)
+       Docs: man:fail2ban(1)
+ubuntu@bastion-host:~$ sudo systemctl start fail2ban
+ubuntu@bastion-host:~$ sudo systemctl enable fail2ban
+Synchronizing state of fail2ban.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install enable fail2ban
+Created symlink /etc/systemd/system/multi-user.target.wants/fail2ban.service → /lib/systemd/system/fail2ban.service.
+ubuntu@bastion-host:~$ sudo systemctl status fail2ban
+● fail2ban.service - Fail2Ban Service
+     Loaded: loaded (/lib/systemd/system/fail2ban.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sat 2025-09-27 18:34:41 UTC; 19s ago
+       Docs: man:fail2ban(1)
+   Main PID: 2576 (fail2ban-server)
+      Tasks: 5 (limit: 2309)
+     Memory: 13.6M
+        CPU: 940ms
+     CGroup: /system.slice/fail2ban.service
+             └─2576 /usr/bin/python3 /usr/bin/fail2ban-server -xf start
+
+Sep 27 18:34:41 bastion-host systemd[1]: Started Fail2Ban Service.
+Sep 27 18:34:42 bastion-host fail2ban-server[2576]: Server ready
+ubuntu@bastion-host:~$ sudo fail2ban-client status
+Status
+|- Number of jail:	1
+`- Jail list:	sshd
+ubuntu@bastion-host:~$ 
+
+
+# 1. Vérifier UFW
+sudo ufw status
+
+# 2. Vérifier les services
+sudo systemctl status ufw fail2ban
+
+# 3. Tester l'accès aux autres VMs
+ssh ubuntu@192.168.122.200  # CI Server
+ssh ubuntu@192.168.122.201  # App Server
+ssh ubuntu@192.168.122.202  # Monitoring
+ssh ubuntu@192.168.122.206  # Backup
+
+ubuntu@bastion-host:~$ sudo fail2ban-client status
+Status
+|- Number of jail:	1
+`- Jail list:	sshd
+ubuntu@bastion-host:~$ sudo ufw status
+Status: active
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW       Anywhere                  
+22/tcp (v6)                ALLOW       Anywhere (v6)             
+
+Anywhere                   ALLOW OUT   Anywhere                  
+Anywhere (v6)              ALLOW OUT   Anywhere (v6)             
+
+ubuntu@bastion-host:~$ sudo systemctl status ufw fail2ban
+● ufw.service - Uncomplicated firewall
+     Loaded: loaded (/lib/systemd/system/ufw.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Sat 2025-09-27 17:40:54 UTC; 56min ago
+       Docs: man:ufw(8)
+   Main PID: 487 (code=exited, status=0/SUCCESS)
+        CPU: 1.137s
+
+Sep 27 17:40:49 bastion-host systemd[1]: Starting Uncomplicated firewall...
+Sep 27 17:40:54 bastion-host systemd[1]: Finished Uncomplicated firewall.
+
+● fail2ban.service - Fail2Ban Service
+     Loaded: loaded (/lib/systemd/system/fail2ban.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sat 2025-09-27 18:34:41 UTC; 2min 14s ago
+       Docs: man:fail2ban(1)
+   Main PID: 2576 (fail2ban-server)
+      Tasks: 5 (limit: 2309)
+     Memory: 13.6M
+        CPU: 1.219s
+     CGroup: /system.slice/fail2ban.service
+             └─2576 /usr/bin/python3 /usr/bin/fail2ban-server -xf start
+
+Sep 27 18:34:41 bastion-host systemd[1]: Started Fail2Ban Service.
+Sep 27 18:34:42 bastion-host fail2ban-server[2576]: Server ready
+ubuntu@bastion-host:~$ ssh ubuntu@192.168.122.200 
+The authenticity of host '192.168.122.200 (192.168.122.200)' can't be established.
+ED25519 key fingerprint is SHA256:9pkfpJGyFTOI89JWlYvUwCHhhIvsEEoxNELf4OGocnk.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.122.200' (ED25519) to the list of known hosts.
+ubuntu@192.168.122.200: Permission denied (publickey).
+ubuntu@bastion-host:~$ 
+
+Déploiement de 05 vm
+
+
+# Aller dans le répertoire Terraform
+cd ~/terraform-proxmox
+
+# Modifier main.tf pour ajouter les 5 nouvelles VMs
+cat > main.tf << 'EOF'
+terraform {
+  required_version = ">= 1.0"
+  required_providers {
+    proxmox = {
+      source  = "bpg/proxmox"
+      version = "0.50.0"
+    }
+  }
+}
+
+provider "proxmox" {
+  endpoint = "https://192.168.122.161:8006/api2/json"
+  insecure = true
+  username = "root@pam"
+  password = "1234nico"
+}
+
+# Variables globales
+locals {
+  network_config = {
+    gateway = "192.168.122.1"
+    subnet  = "192.168.122.0/24"
+  }
+  
+  vm_config = {
+    cpu_cores    = 2
+    memory_gb    = 2
+    disk_size_gb = 20
+    template_id  = 9000
+  }
+  
+  default_user = {
+    username = "ubuntu"
+    password = "1234nico"
+  }
+  
+  # VMs existantes (déjà déployées)
+  existing_vms = {
+    100 = { name = "ci-server",         ip = "192.168.122.200", role = "ci" }
+    101 = { name = "app-server",        ip = "192.168.122.201", role = "app" }
+    102 = { name = "monitoring-server", ip = "192.168.122.202", role = "monitoring" }
+    103 = { name = "bastion-host",      ip = "192.168.122.203", role = "bastion" }
+    106 = { name = "backup-server",     ip = "192.168.122.206", role = "backup" }
+  }
+  
+  # Nouvelles VMs à créer
+  new_vms = {
+    104 = { name = "load-balancer",     ip = "192.168.122.204", role = "loadbalancer" }
+    105 = { name = "backend-server-1",  ip = "192.168.122.205", role = "backend" }
+    107 = { name = "database-server",   ip = "192.168.122.207", role = "database" }
+    108 = { name = "frontend-server-2", ip = "192.168.122.208", role = "frontend" }
+    109 = { name = "backend-server-2",  ip = "192.168.122.209", role = "backend" }
+  }
+}
+
+# Variables de contrôle
+variable "deploy_new_vms" {
+  description = "Déployer les nouvelles VMs"
+  type        = bool
+  default     = true
+}
+
+# Nouvelles VMs
+resource "proxmox_virtual_environment_vm" "new_servers" {
+  for_each = var.deploy_new_vms ? local.new_vms : {}
+  
+  name      = each.value.name
+  node_name = "nico"
+  vm_id     = each.key
+  started   = true
+  on_boot   = true
+
+  clone {
+    vm_id = local.vm_config.template_id
+  }
+
+  cpu {
+    cores   = local.vm_config.cpu_cores
+    sockets = 1
+  }
+
+  memory {
+    dedicated = local.vm_config.memory_gb * 1024
+  }
+
+  disk {
+    datastore_id = "local-lvm"
+    size         = local.vm_config.disk_size_gb
+    interface    = "scsi0"
+  }
+
+  network_device {
+    bridge = "vmbr0"
+    model  = "virtio"
+  }
+
+  agent {
+    enabled = true
+    type    = "virtio"
+  }
+
+  initialization {
+    datastore_id = "local-lvm"
+    interface    = "ide2"
+
+    ip_config {
+      ipv4 {
+        address = "${each.value.ip}/24"
+        gateway = local.network_config.gateway
+      }
+    }
+
+    user_account {
+      username = local.default_user.username
+      password = local.default_user.password
+      keys     = [file("~/.ssh/id_rsa.pub")]
+    }
+  }
+}
+
+# Outputs
+output "new_vm_ips" {
+  description = "IPs des nouvelles VMs"
+  value = {
+    for vm in proxmox_virtual_environment_vm.new_servers :
+    vm.name => vm.initialization[0].ip_config[0].ipv4[0].address
+  }
+}
+
+output "all_vm_ips" {
+  description = "Toutes les IPs des VMs"
+  value = merge(
+    local.existing_vms,
+    { for vm in proxmox_virtual_environment_vm.new_servers :
+      vm.name => vm.initialization[0].ip_config[0].ipv4[0].address
+    }
+  )
+}
+
+output "ssh_access" {
+  description = "Commandes SSH pour accéder aux nouvelles VMs"
+  value = {
+    for vm in proxmox_virtual_environment_vm.new_servers :
+    vm.name => "ssh ${local.default_user.username}@${vm.initialization[0].ip_config[0].ipv4[0].address}"
+  }
+}
+EOF
+
+
+
+
+nicoklaus@nicoklaus-Nitro-AN515-54:~/terraform-proxmox$ terraform init
+Initializing the backend...
+Initializing provider plugins...
+- Reusing previous version of bpg/proxmox from the dependency lock file
+- Using previously-installed bpg/proxmox v0.50.0
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+nicoklaus@nicoklaus-Nitro-AN515-54:~/terraform-proxmox$ terraform plan
+proxmox_virtual_environment_vm.core_servers["100"]: Refreshing state... [id=100]
+proxmox_virtual_environment_vm.additional_servers["103"]: Refreshing state... [id=103]
+proxmox_virtual_environment_vm.core_servers["101"]: Refreshing state... [id=101]
+proxmox_virtual_environment_vm.core_servers["102"]: Refreshing state... [id=102]
+proxmox_virtual_environment_vm.additional_servers["106"]: Refreshing state... [id=106]
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+  - destroy
+
+Terraform will perform the following actions:
+
+  # proxmox_virtual_environment_vm.additional_servers["103"] will be destroyed
+  # (because proxmox_virtual_environment_vm.additional_servers is not in configuration)
+  - resource "proxmox_virtual_environment_vm" "additional_servers" {
+      - acpi                    = true -> null
+      - bios                    = "seabios" -> null
+      - id                      = "103" -> null
+      - ipv4_addresses          = [] -> null
+      - ipv6_addresses          = [] -> null
+      - keyboard_layout         = "en-us" -> null
+      - mac_addresses           = [
+          - "BC:24:11:54:A5:32",
+        ] -> null
+      - migrate                 = false -> null
+      - name                    = "bastion-host" -> null
+      - network_interface_names = [] -> null
+      - node_name               = "nico" -> null
+      - on_boot                 = true -> null
+      - protection              = false -> null
+      - reboot                  = false -> null
+      - scsi_hardware           = "virtio-scsi-pci" -> null
+      - started                 = false -> null
+      - stop_on_destroy         = false -> null
+      - tablet_device           = true -> null
+      - template                = false -> null
+      - timeout_clone           = 1800 -> null
+      - timeout_create          = 1800 -> null
+      - timeout_migrate         = 1800 -> null
+      - timeout_move_disk       = 1800 -> null
+      - timeout_reboot          = 1800 -> null
+      - timeout_shutdown_vm     = 1800 -> null
+      - timeout_start_vm        = 1800 -> null
+      - timeout_stop_vm         = 300 -> null
+      - vm_id                   = 103 -> null
+
+      - agent {
+          - enabled = true -> null
+          - timeout = "15m" -> null
+          - trim    = false -> null
+          - type    = "virtio" -> null
+        }
+
+      - clone {
+          - full         = true -> null
+          - retries      = 1 -> null
+          - vm_id        = 9000 -> null
+            # (2 unchanged attributes hidden)
+        }
+
+      - cpu {
+          - architecture = "x86_64" -> null
+          - cores        = 2 -> null
+          - flags        = [] -> null
+          - hotplugged   = 0 -> null
+          - limit        = 0 -> null
+          - numa         = false -> null
+          - sockets      = 1 -> null
+          - type         = "qemu64" -> null
+          - units        = 1024 -> null
+        }
+
+      - disk {
+          - aio               = "io_uring" -> null
+          - backup            = true -> null
+          - cache             = "none" -> null
+          - datastore_id      = "local-lvm" -> null
+          - discard           = "ignore" -> null
+          - file_format       = "raw" -> null
+          - interface         = "scsi0" -> null
+          - iothread          = false -> null
+          - path_in_datastore = "vm-103-disk-0" -> null
+          - replicate         = true -> null
+          - size              = 20 -> null
+          - ssd               = false -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - initialization {
+          - datastore_id         = "local-lvm" -> null
+          - interface            = "ide2" -> null
+            # (5 unchanged attributes hidden)
+
+          - ip_config {
+              - ipv4 {
+                  - address = "192.168.122.203/24" -> null
+                  - gateway = "192.168.122.1" -> null
+                }
+            }
+
+          - user_account {
+              - keys     = [
+                  - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCcvcpOY4B7sbqEU1WIyF9OH4CJSsYAeIM+ElKVCZ69THhnJZXs8cQ+T5mDjuLTaX4XCmqOwtZdRcHjq+OqM+Bjc+csX3M2cdzopkrTr4JlVewCo6s6DolfgJrUeJYrlbfQDL2DQHT+fXAeXrBnz13rVRQiZMQMsgouZpbTMCjEyo9hv9Q2mM26OSAw5Y27bYw1WA3NCuNLoQRdhEVZAy1GXAicUALDnssmzc86R/0eqKwctOv4bpOw48tkoM6ZdSSo1a+8c4M96hwbZY8uX3Vc2+DysK9cDAWvsTEoiwYSDlH/G9IUW5HmzNXqVh5hmaj4VxnfYrMwvXdBO3cejiznNE7PXZJrltVc8btOwmjeaQsdvLtrQue4r3TOHXBdbbPgvmpifwvMoQBny7Si/Lzvu6aTrAjeLYa4mAezUk7aY6ezU8M441vmP2sTM2gjdK6/1tXDoWbqfu6filwr8hdou5MI4uB5DFIb4kiwzN2dGNkH/0jhoCjZFUfeAYqs9UL60fYGQqQsmEzvOqDKRK2xEilr0aWRS4sl8gDalIL1TIgPrKevuK6tmTkjnwKsVaHTcLoLTNIjXmlSadpA3/Q3BcqO84ZfiT2j6nubdJZXunPglxNK4JyBaaH4e02G1JjMqOzT1RQlq9RE2CIHGb1h5x/BJwV61UIji9mPwijWDQ== nicoklaus@proxmox",
+                ] -> null
+              - password = (sensitive value) -> null
+              - username = "ubuntu" -> null
+            }
+        }
+
+      - memory {
+          - dedicated = 2048 -> null
+          - floating  = 0 -> null
+          - shared    = 0 -> null
+        }
+
+      - network_device {
+          - bridge       = "vmbr0" -> null
+          - disconnected = false -> null
+          - enabled      = true -> null
+          - firewall     = false -> null
+          - mac_address  = "BC:24:11:54:A5:32" -> null
+          - model        = "virtio" -> null
+          - mtu          = 0 -> null
+          - queues       = 0 -> null
+          - rate_limit   = 0 -> null
+          - vlan_id      = 0 -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - vga {
+          - enabled = true -> null
+          - memory  = 0 -> null
+          - type    = "serial0" -> null
+        }
+    }
+
+  # proxmox_virtual_environment_vm.additional_servers["106"] will be destroyed
+  # (because proxmox_virtual_environment_vm.additional_servers is not in configuration)
+  - resource "proxmox_virtual_environment_vm" "additional_servers" {
+      - acpi                    = true -> null
+      - bios                    = "seabios" -> null
+      - id                      = "106" -> null
+      - ipv4_addresses          = [] -> null
+      - ipv6_addresses          = [] -> null
+      - keyboard_layout         = "en-us" -> null
+      - mac_addresses           = [
+          - "BC:24:11:22:8B:94",
+        ] -> null
+      - migrate                 = false -> null
+      - name                    = "backup-server" -> null
+      - network_interface_names = [] -> null
+      - node_name               = "nico" -> null
+      - on_boot                 = true -> null
+      - protection              = false -> null
+      - reboot                  = false -> null
+      - scsi_hardware           = "virtio-scsi-pci" -> null
+      - started                 = false -> null
+      - stop_on_destroy         = false -> null
+      - tablet_device           = true -> null
+      - template                = false -> null
+      - timeout_clone           = 1800 -> null
+      - timeout_create          = 1800 -> null
+      - timeout_migrate         = 1800 -> null
+      - timeout_move_disk       = 1800 -> null
+      - timeout_reboot          = 1800 -> null
+      - timeout_shutdown_vm     = 1800 -> null
+      - timeout_start_vm        = 1800 -> null
+      - timeout_stop_vm         = 300 -> null
+      - vm_id                   = 106 -> null
+
+      - agent {
+          - enabled = true -> null
+          - timeout = "15m" -> null
+          - trim    = false -> null
+          - type    = "virtio" -> null
+        }
+
+      - clone {
+          - full         = true -> null
+          - retries      = 1 -> null
+          - vm_id        = 9000 -> null
+            # (2 unchanged attributes hidden)
+        }
+
+      - cpu {
+          - architecture = "x86_64" -> null
+          - cores        = 2 -> null
+          - flags        = [] -> null
+          - hotplugged   = 0 -> null
+          - limit        = 0 -> null
+          - numa         = false -> null
+          - sockets      = 1 -> null
+          - type         = "qemu64" -> null
+          - units        = 1024 -> null
+        }
+
+      - disk {
+          - aio               = "io_uring" -> null
+          - backup            = true -> null
+          - cache             = "none" -> null
+          - datastore_id      = "local-lvm" -> null
+          - discard           = "ignore" -> null
+          - file_format       = "raw" -> null
+          - interface         = "scsi0" -> null
+          - iothread          = false -> null
+          - path_in_datastore = "vm-106-disk-0" -> null
+          - replicate         = true -> null
+          - size              = 20 -> null
+          - ssd               = false -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - initialization {
+          - datastore_id         = "local-lvm" -> null
+          - interface            = "ide2" -> null
+            # (5 unchanged attributes hidden)
+
+          - ip_config {
+              - ipv4 {
+                  - address = "192.168.122.206/24" -> null
+                  - gateway = "192.168.122.1" -> null
+                }
+            }
+
+          - user_account {
+              - keys     = [
+                  - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCcvcpOY4B7sbqEU1WIyF9OH4CJSsYAeIM+ElKVCZ69THhnJZXs8cQ+T5mDjuLTaX4XCmqOwtZdRcHjq+OqM+Bjc+csX3M2cdzopkrTr4JlVewCo6s6DolfgJrUeJYrlbfQDL2DQHT+fXAeXrBnz13rVRQiZMQMsgouZpbTMCjEyo9hv9Q2mM26OSAw5Y27bYw1WA3NCuNLoQRdhEVZAy1GXAicUALDnssmzc86R/0eqKwctOv4bpOw48tkoM6ZdSSo1a+8c4M96hwbZY8uX3Vc2+DysK9cDAWvsTEoiwYSDlH/G9IUW5HmzNXqVh5hmaj4VxnfYrMwvXdBO3cejiznNE7PXZJrltVc8btOwmjeaQsdvLtrQue4r3TOHXBdbbPgvmpifwvMoQBny7Si/Lzvu6aTrAjeLYa4mAezUk7aY6ezU8M441vmP2sTM2gjdK6/1tXDoWbqfu6filwr8hdou5MI4uB5DFIb4kiwzN2dGNkH/0jhoCjZFUfeAYqs9UL60fYGQqQsmEzvOqDKRK2xEilr0aWRS4sl8gDalIL1TIgPrKevuK6tmTkjnwKsVaHTcLoLTNIjXmlSadpA3/Q3BcqO84ZfiT2j6nubdJZXunPglxNK4JyBaaH4e02G1JjMqOzT1RQlq9RE2CIHGb1h5x/BJwV61UIji9mPwijWDQ== nicoklaus@proxmox",
+                ] -> null
+              - password = (sensitive value) -> null
+              - username = "ubuntu" -> null
+            }
+        }
+
+      - memory {
+          - dedicated = 2048 -> null
+          - floating  = 0 -> null
+          - shared    = 0 -> null
+        }
+
+      - network_device {
+          - bridge       = "vmbr0" -> null
+          - disconnected = false -> null
+          - enabled      = true -> null
+          - firewall     = false -> null
+          - mac_address  = "BC:24:11:22:8B:94" -> null
+          - model        = "virtio" -> null
+          - mtu          = 0 -> null
+          - queues       = 0 -> null
+          - rate_limit   = 0 -> null
+          - vlan_id      = 0 -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - vga {
+          - enabled = true -> null
+          - memory  = 0 -> null
+          - type    = "serial0" -> null
+        }
+    }
+
+  # proxmox_virtual_environment_vm.core_servers["100"] will be destroyed
+  # (because proxmox_virtual_environment_vm.core_servers is not in configuration)
+  - resource "proxmox_virtual_environment_vm" "core_servers" {
+      - acpi                    = true -> null
+      - bios                    = "seabios" -> null
+      - id                      = "100" -> null
+      - ipv4_addresses          = [] -> null
+      - ipv6_addresses          = [] -> null
+      - keyboard_layout         = "en-us" -> null
+      - mac_addresses           = [
+          - "BC:24:11:FB:3E:C1",
+        ] -> null
+      - migrate                 = false -> null
+      - name                    = "ci-server" -> null
+      - network_interface_names = [] -> null
+      - node_name               = "nico" -> null
+      - on_boot                 = true -> null
+      - protection              = false -> null
+      - reboot                  = false -> null
+      - scsi_hardware           = "virtio-scsi-pci" -> null
+      - started                 = false -> null
+      - stop_on_destroy         = false -> null
+      - tablet_device           = true -> null
+      - template                = false -> null
+      - timeout_clone           = 1800 -> null
+      - timeout_create          = 1800 -> null
+      - timeout_migrate         = 1800 -> null
+      - timeout_move_disk       = 1800 -> null
+      - timeout_reboot          = 1800 -> null
+      - timeout_shutdown_vm     = 1800 -> null
+      - timeout_start_vm        = 1800 -> null
+      - timeout_stop_vm         = 300 -> null
+      - vm_id                   = 100 -> null
+
+      - agent {
+          - enabled = true -> null
+          - timeout = "15m" -> null
+          - trim    = false -> null
+          - type    = "virtio" -> null
+        }
+
+      - clone {
+          - full         = true -> null
+          - retries      = 1 -> null
+          - vm_id        = 9000 -> null
+            # (2 unchanged attributes hidden)
+        }
+
+      - cpu {
+          - architecture = "x86_64" -> null
+          - cores        = 2 -> null
+          - flags        = [] -> null
+          - hotplugged   = 0 -> null
+          - limit        = 0 -> null
+          - numa         = false -> null
+          - sockets      = 2 -> null
+          - type         = "qemu64" -> null
+          - units        = 1024 -> null
+        }
+
+      - disk {
+          - aio               = "io_uring" -> null
+          - backup            = true -> null
+          - cache             = "none" -> null
+          - datastore_id      = "local-lvm" -> null
+          - discard           = "ignore" -> null
+          - file_format       = "raw" -> null
+          - interface         = "scsi0" -> null
+          - iothread          = false -> null
+          - path_in_datastore = "vm-100-disk-0" -> null
+          - replicate         = true -> null
+          - size              = 20 -> null
+          - ssd               = false -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - initialization {
+          - datastore_id         = "local-lvm" -> null
+          - interface            = "ide2" -> null
+            # (5 unchanged attributes hidden)
+
+          - ip_config {
+              - ipv4 {
+                  - address = "192.168.122.200/24" -> null
+                  - gateway = "192.168.122.1" -> null
+                }
+            }
+
+          - user_account {
+              - keys     = [
+                  - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCcvcpOY4B7sbqEU1WIyF9OH4CJSsYAeIM+ElKVCZ69THhnJZXs8cQ+T5mDjuLTaX4XCmqOwtZdRcHjq+OqM+Bjc+csX3M2cdzopkrTr4JlVewCo6s6DolfgJrUeJYrlbfQDL2DQHT+fXAeXrBnz13rVRQiZMQMsgouZpbTMCjEyo9hv9Q2mM26OSAw5Y27bYw1WA3NCuNLoQRdhEVZAy1GXAicUALDnssmzc86R/0eqKwctOv4bpOw48tkoM6ZdSSo1a+8c4M96hwbZY8uX3Vc2+DysK9cDAWvsTEoiwYSDlH/G9IUW5HmzNXqVh5hmaj4VxnfYrMwvXdBO3cejiznNE7PXZJrltVc8btOwmjeaQsdvLtrQue4r3TOHXBdbbPgvmpifwvMoQBny7Si/Lzvu6aTrAjeLYa4mAezUk7aY6ezU8M441vmP2sTM2gjdK6/1tXDoWbqfu6filwr8hdou5MI4uB5DFIb4kiwzN2dGNkH/0jhoCjZFUfeAYqs9UL60fYGQqQsmEzvOqDKRK2xEilr0aWRS4sl8gDalIL1TIgPrKevuK6tmTkjnwKsVaHTcLoLTNIjXmlSadpA3/Q3BcqO84ZfiT2j6nubdJZXunPglxNK4JyBaaH4e02G1JjMqOzT1RQlq9RE2CIHGb1h5x/BJwV61UIji9mPwijWDQ== nicoklaus@proxmox",
+                ] -> null
+              - password = (sensitive value) -> null
+              - username = "ubuntu" -> null
+            }
+        }
+
+      - memory {
+          - dedicated = 4096 -> null
+          - floating  = 0 -> null
+          - shared    = 0 -> null
+        }
+
+      - network_device {
+          - bridge       = "vmbr0" -> null
+          - disconnected = false -> null
+          - enabled      = true -> null
+          - firewall     = false -> null
+          - mac_address  = "BC:24:11:FB:3E:C1" -> null
+          - model        = "virtio" -> null
+          - mtu          = 0 -> null
+          - queues       = 0 -> null
+          - rate_limit   = 0 -> null
+          - vlan_id      = 0 -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - vga {
+          - enabled = true -> null
+          - memory  = 0 -> null
+          - type    = "serial0" -> null
+        }
+    }
+
+  # proxmox_virtual_environment_vm.core_servers["101"] will be destroyed
+  # (because proxmox_virtual_environment_vm.core_servers is not in configuration)
+  - resource "proxmox_virtual_environment_vm" "core_servers" {
+      - acpi                    = true -> null
+      - bios                    = "seabios" -> null
+      - id                      = "101" -> null
+      - ipv4_addresses          = [] -> null
+      - ipv6_addresses          = [] -> null
+      - keyboard_layout         = "en-us" -> null
+      - mac_addresses           = [
+          - "BC:24:11:D4:C3:5A",
+        ] -> null
+      - migrate                 = false -> null
+      - name                    = "app-server" -> null
+      - network_interface_names = [] -> null
+      - node_name               = "nico" -> null
+      - on_boot                 = true -> null
+      - protection              = false -> null
+      - reboot                  = false -> null
+      - scsi_hardware           = "virtio-scsi-pci" -> null
+      - started                 = false -> null
+      - stop_on_destroy         = false -> null
+      - tablet_device           = true -> null
+      - template                = false -> null
+      - timeout_clone           = 1800 -> null
+      - timeout_create          = 1800 -> null
+      - timeout_migrate         = 1800 -> null
+      - timeout_move_disk       = 1800 -> null
+      - timeout_reboot          = 1800 -> null
+      - timeout_shutdown_vm     = 1800 -> null
+      - timeout_start_vm        = 1800 -> null
+      - timeout_stop_vm         = 300 -> null
+      - vm_id                   = 101 -> null
+
+      - agent {
+          - enabled = true -> null
+          - timeout = "15m" -> null
+          - trim    = false -> null
+          - type    = "virtio" -> null
+        }
+
+      - clone {
+          - full         = true -> null
+          - retries      = 1 -> null
+          - vm_id        = 9000 -> null
+            # (2 unchanged attributes hidden)
+        }
+
+      - cpu {
+          - architecture = "x86_64" -> null
+          - cores        = 2 -> null
+          - flags        = [] -> null
+          - hotplugged   = 0 -> null
+          - limit        = 0 -> null
+          - numa         = false -> null
+          - sockets      = 2 -> null
+          - type         = "qemu64" -> null
+          - units        = 1024 -> null
+        }
+
+      - disk {
+          - aio               = "io_uring" -> null
+          - backup            = true -> null
+          - cache             = "none" -> null
+          - datastore_id      = "local-lvm" -> null
+          - discard           = "ignore" -> null
+          - file_format       = "raw" -> null
+          - interface         = "scsi0" -> null
+          - iothread          = false -> null
+          - path_in_datastore = "vm-101-disk-0" -> null
+          - replicate         = true -> null
+          - size              = 20 -> null
+          - ssd               = false -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - initialization {
+          - datastore_id         = "local-lvm" -> null
+          - interface            = "ide2" -> null
+            # (5 unchanged attributes hidden)
+
+          - ip_config {
+              - ipv4 {
+                  - address = "192.168.122.201/24" -> null
+                  - gateway = "192.168.122.1" -> null
+                }
+            }
+
+          - user_account {
+              - keys     = [
+                  - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCcvcpOY4B7sbqEU1WIyF9OH4CJSsYAeIM+ElKVCZ69THhnJZXs8cQ+T5mDjuLTaX4XCmqOwtZdRcHjq+OqM+Bjc+csX3M2cdzopkrTr4JlVewCo6s6DolfgJrUeJYrlbfQDL2DQHT+fXAeXrBnz13rVRQiZMQMsgouZpbTMCjEyo9hv9Q2mM26OSAw5Y27bYw1WA3NCuNLoQRdhEVZAy1GXAicUALDnssmzc86R/0eqKwctOv4bpOw48tkoM6ZdSSo1a+8c4M96hwbZY8uX3Vc2+DysK9cDAWvsTEoiwYSDlH/G9IUW5HmzNXqVh5hmaj4VxnfYrMwvXdBO3cejiznNE7PXZJrltVc8btOwmjeaQsdvLtrQue4r3TOHXBdbbPgvmpifwvMoQBny7Si/Lzvu6aTrAjeLYa4mAezUk7aY6ezU8M441vmP2sTM2gjdK6/1tXDoWbqfu6filwr8hdou5MI4uB5DFIb4kiwzN2dGNkH/0jhoCjZFUfeAYqs9UL60fYGQqQsmEzvOqDKRK2xEilr0aWRS4sl8gDalIL1TIgPrKevuK6tmTkjnwKsVaHTcLoLTNIjXmlSadpA3/Q3BcqO84ZfiT2j6nubdJZXunPglxNK4JyBaaH4e02G1JjMqOzT1RQlq9RE2CIHGb1h5x/BJwV61UIji9mPwijWDQ== nicoklaus@proxmox",
+                ] -> null
+              - password = (sensitive value) -> null
+              - username = "ubuntu" -> null
+            }
+        }
+
+      - memory {
+          - dedicated = 4096 -> null
+          - floating  = 0 -> null
+          - shared    = 0 -> null
+        }
+
+      - network_device {
+          - bridge       = "vmbr0" -> null
+          - disconnected = false -> null
+          - enabled      = true -> null
+          - firewall     = false -> null
+          - mac_address  = "BC:24:11:D4:C3:5A" -> null
+          - model        = "virtio" -> null
+          - mtu          = 0 -> null
+          - queues       = 0 -> null
+          - rate_limit   = 0 -> null
+          - vlan_id      = 0 -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - vga {
+          - enabled = true -> null
+          - memory  = 0 -> null
+          - type    = "serial0" -> null
+        }
+    }
+
+  # proxmox_virtual_environment_vm.core_servers["102"] will be destroyed
+  # (because proxmox_virtual_environment_vm.core_servers is not in configuration)
+  - resource "proxmox_virtual_environment_vm" "core_servers" {
+      - acpi                    = true -> null
+      - bios                    = "seabios" -> null
+      - id                      = "102" -> null
+      - ipv4_addresses          = [] -> null
+      - ipv6_addresses          = [] -> null
+      - keyboard_layout         = "en-us" -> null
+      - mac_addresses           = [
+          - "BC:24:11:17:0B:82",
+        ] -> null
+      - migrate                 = false -> null
+      - name                    = "monitoring-server" -> null
+      - network_interface_names = [] -> null
+      - node_name               = "nico" -> null
+      - on_boot                 = true -> null
+      - protection              = false -> null
+      - reboot                  = false -> null
+      - scsi_hardware           = "virtio-scsi-pci" -> null
+      - started                 = false -> null
+      - stop_on_destroy         = false -> null
+      - tablet_device           = true -> null
+      - template                = false -> null
+      - timeout_clone           = 1800 -> null
+      - timeout_create          = 1800 -> null
+      - timeout_migrate         = 1800 -> null
+      - timeout_move_disk       = 1800 -> null
+      - timeout_reboot          = 1800 -> null
+      - timeout_shutdown_vm     = 1800 -> null
+      - timeout_start_vm        = 1800 -> null
+      - timeout_stop_vm         = 300 -> null
+      - vm_id                   = 102 -> null
+
+      - agent {
+          - enabled = true -> null
+          - timeout = "15m" -> null
+          - trim    = false -> null
+          - type    = "virtio" -> null
+        }
+
+      - clone {
+          - full         = true -> null
+          - retries      = 1 -> null
+          - vm_id        = 9000 -> null
+            # (2 unchanged attributes hidden)
+        }
+
+      - cpu {
+          - architecture = "x86_64" -> null
+          - cores        = 2 -> null
+          - flags        = [] -> null
+          - hotplugged   = 0 -> null
+          - limit        = 0 -> null
+          - numa         = false -> null
+          - sockets      = 2 -> null
+          - type         = "qemu64" -> null
+          - units        = 1024 -> null
+        }
+
+      - disk {
+          - aio               = "io_uring" -> null
+          - backup            = true -> null
+          - cache             = "none" -> null
+          - datastore_id      = "local-lvm" -> null
+          - discard           = "ignore" -> null
+          - file_format       = "raw" -> null
+          - interface         = "scsi0" -> null
+          - iothread          = false -> null
+          - path_in_datastore = "vm-102-disk-0" -> null
+          - replicate         = true -> null
+          - size              = 20 -> null
+          - ssd               = false -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - initialization {
+          - datastore_id         = "local-lvm" -> null
+          - interface            = "ide2" -> null
+            # (5 unchanged attributes hidden)
+
+          - ip_config {
+              - ipv4 {
+                  - address = "192.168.122.202/24" -> null
+                  - gateway = "192.168.122.1" -> null
+                }
+            }
+
+          - user_account {
+              - keys     = [
+                  - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCcvcpOY4B7sbqEU1WIyF9OH4CJSsYAeIM+ElKVCZ69THhnJZXs8cQ+T5mDjuLTaX4XCmqOwtZdRcHjq+OqM+Bjc+csX3M2cdzopkrTr4JlVewCo6s6DolfgJrUeJYrlbfQDL2DQHT+fXAeXrBnz13rVRQiZMQMsgouZpbTMCjEyo9hv9Q2mM26OSAw5Y27bYw1WA3NCuNLoQRdhEVZAy1GXAicUALDnssmzc86R/0eqKwctOv4bpOw48tkoM6ZdSSo1a+8c4M96hwbZY8uX3Vc2+DysK9cDAWvsTEoiwYSDlH/G9IUW5HmzNXqVh5hmaj4VxnfYrMwvXdBO3cejiznNE7PXZJrltVc8btOwmjeaQsdvLtrQue4r3TOHXBdbbPgvmpifwvMoQBny7Si/Lzvu6aTrAjeLYa4mAezUk7aY6ezU8M441vmP2sTM2gjdK6/1tXDoWbqfu6filwr8hdou5MI4uB5DFIb4kiwzN2dGNkH/0jhoCjZFUfeAYqs9UL60fYGQqQsmEzvOqDKRK2xEilr0aWRS4sl8gDalIL1TIgPrKevuK6tmTkjnwKsVaHTcLoLTNIjXmlSadpA3/Q3BcqO84ZfiT2j6nubdJZXunPglxNK4JyBaaH4e02G1JjMqOzT1RQlq9RE2CIHGb1h5x/BJwV61UIji9mPwijWDQ== nicoklaus@proxmox",
+                ] -> null
+              - password = (sensitive value) -> null
+              - username = "ubuntu" -> null
+            }
+        }
+
+      - memory {
+          - dedicated = 4096 -> null
+          - floating  = 0 -> null
+          - shared    = 0 -> null
+        }
+
+      - network_device {
+          - bridge       = "vmbr0" -> null
+          - disconnected = false -> null
+          - enabled      = true -> null
+          - firewall     = false -> null
+          - mac_address  = "BC:24:11:17:0B:82" -> null
+          - model        = "virtio" -> null
+          - mtu          = 0 -> null
+          - queues       = 0 -> null
+          - rate_limit   = 0 -> null
+          - vlan_id      = 0 -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - vga {
+          - enabled = true -> null
+          - memory  = 0 -> null
+          - type    = "serial0" -> null
+        }
+    }
+
+  # proxmox_virtual_environment_vm.new_servers["104"] will be created
+  + resource "proxmox_virtual_environment_vm" "new_servers" {
+      + acpi                    = true
+      + bios                    = "seabios"
+      + id                      = (known after apply)
+      + ipv4_addresses          = (known after apply)
+      + ipv6_addresses          = (known after apply)
+      + keyboard_layout         = "en-us"
+      + mac_addresses           = (known after apply)
+      + migrate                 = false
+      + name                    = "load-balancer"
+      + network_interface_names = (known after apply)
+      + node_name               = "nico"
+      + on_boot                 = true
+      + protection              = false
+      + reboot                  = false
+      + scsi_hardware           = "virtio-scsi-pci"
+      + started                 = true
+      + stop_on_destroy         = false
+      + tablet_device           = true
+      + template                = false
+      + timeout_clone           = 1800
+      + timeout_create          = 1800
+      + timeout_migrate         = 1800
+      + timeout_move_disk       = 1800
+      + timeout_reboot          = 1800
+      + timeout_shutdown_vm     = 1800
+      + timeout_start_vm        = 1800
+      + timeout_stop_vm         = 300
+      + vm_id                   = 104
+
+      + agent {
+          + enabled = true
+          + timeout = "15m"
+          + trim    = false
+          + type    = "virtio"
+        }
+
+      + clone {
+          + full    = true
+          + retries = 1
+          + vm_id   = 9000
+        }
+
+      + cpu {
+          + architecture = "x86_64"
+          + cores        = 2
+          + hotplugged   = 0
+          + limit        = 0
+          + numa         = false
+          + sockets      = 1
+          + type         = "qemu64"
+          + units        = 1024
+        }
+
+      + disk {
+          + aio               = "io_uring"
+          + backup            = true
+          + cache             = "none"
+          + datastore_id      = "local-lvm"
+          + discard           = "ignore"
+          + file_format       = (known after apply)
+          + interface         = "scsi0"
+          + iothread          = false
+          + path_in_datastore = (known after apply)
+          + replicate         = true
+          + size              = 20
+          + ssd               = false
+        }
+
+      + initialization {
+          + datastore_id = "local-lvm"
+          + interface    = "ide2"
+
+          + ip_config {
+              + ipv4 {
+                  + address = "192.168.122.204/24"
+                  + gateway = "192.168.122.1"
+                }
+            }
+
+          + user_account {
+              + keys     = [
+                  + <<-EOT
+                        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCcvcpOY4B7sbqEU1WIyF9OH4CJSsYAeIM+ElKVCZ69THhnJZXs8cQ+T5mDjuLTaX4XCmqOwtZdRcHjq+OqM+Bjc+csX3M2cdzopkrTr4JlVewCo6s6DolfgJrUeJYrlbfQDL2DQHT+fXAeXrBnz13rVRQiZMQMsgouZpbTMCjEyo9hv9Q2mM26OSAw5Y27bYw1WA3NCuNLoQRdhEVZAy1GXAicUALDnssmzc86R/0eqKwctOv4bpOw48tkoM6ZdSSo1a+8c4M96hwbZY8uX3Vc2+DysK9cDAWvsTEoiwYSDlH/G9IUW5HmzNXqVh5hmaj4VxnfYrMwvXdBO3cejiznNE7PXZJrltVc8btOwmjeaQsdvLtrQue4r3TOHXBdbbPgvmpifwvMoQBny7Si/Lzvu6aTrAjeLYa4mAezUk7aY6ezU8M441vmP2sTM2gjdK6/1tXDoWbqfu6filwr8hdou5MI4uB5DFIb4kiwzN2dGNkH/0jhoCjZFUfeAYqs9UL60fYGQqQsmEzvOqDKRK2xEilr0aWRS4sl8gDalIL1TIgPrKevuK6tmTkjnwKsVaHTcLoLTNIjXmlSadpA3/Q3BcqO84ZfiT2j6nubdJZXunPglxNK4JyBaaH4e02G1JjMqOzT1RQlq9RE2CIHGb1h5x/BJwV61UIji9mPwijWDQ== nicoklaus@proxmox
+                    EOT,
+                ]
+              + password = (sensitive value)
+              + username = "ubuntu"
+            }
+        }
+
+      + memory {
+          + dedicated = 2048
+          + floating  = 0
+          + shared    = 0
+        }
+
+      + network_device {
+          + bridge      = "vmbr0"
+          + enabled     = true
+          + firewall    = false
+          + mac_address = (known after apply)
+          + model       = "virtio"
+          + mtu         = 0
+          + queues      = 0
+          + rate_limit  = 0
+          + vlan_id     = 0
+        }
+    }
+
+  # proxmox_virtual_environment_vm.new_servers["105"] will be created
+  + resource "proxmox_virtual_environment_vm" "new_servers" {
+      + acpi                    = true
+      + bios                    = "seabios"
+      + id                      = (known after apply)
+      + ipv4_addresses          = (known after apply)
+      + ipv6_addresses          = (known after apply)
+      + keyboard_layout         = "en-us"
+      + mac_addresses           = (known after apply)
+      + migrate                 = false
+      + name                    = "backend-server-1"
+      + network_interface_names = (known after apply)
+      + node_name               = "nico"
+      + on_boot                 = true
+      + protection              = false
+      + reboot                  = false
+      + scsi_hardware           = "virtio-scsi-pci"
+      + started                 = true
+      + stop_on_destroy         = false
+      + tablet_device           = true
+      + template                = false
+      + timeout_clone           = 1800
+      + timeout_create          = 1800
+      + timeout_migrate         = 1800
+      + timeout_move_disk       = 1800
+      + timeout_reboot          = 1800
+      + timeout_shutdown_vm     = 1800
+      + timeout_start_vm        = 1800
+      + timeout_stop_vm         = 300
+      + vm_id                   = 105
+
+      + agent {
+          + enabled = true
+          + timeout = "15m"
+          + trim    = false
+          + type    = "virtio"
+        }
+
+      + clone {
+          + full    = true
+          + retries = 1
+          + vm_id   = 9000
+        }
+
+      + cpu {
+          + architecture = "x86_64"
+          + cores        = 2
+          + hotplugged   = 0
+          + limit        = 0
+          + numa         = false
+          + sockets      = 1
+          + type         = "qemu64"
+          + units        = 1024
+        }
+
+      + disk {
+          + aio               = "io_uring"
+          + backup            = true
+          + cache             = "none"
+          + datastore_id      = "local-lvm"
+          + discard           = "ignore"
+          + file_format       = (known after apply)
+          + interface         = "scsi0"
+          + iothread          = false
+          + path_in_datastore = (known after apply)
+          + replicate         = true
+          + size              = 20
+          + ssd               = false
+        }
+
+      + initialization {
+          + datastore_id = "local-lvm"
+          + interface    = "ide2"
+
+          + ip_config {
+              + ipv4 {
+                  + address = "192.168.122.205/24"
+                  + gateway = "192.168.122.1"
+                }
+            }
+
+          + user_account {
+              + keys     = [
+                  + <<-EOT
+                        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCcvcpOY4B7sbqEU1WIyF9OH4CJSsYAeIM+ElKVCZ69THhnJZXs8cQ+T5mDjuLTaX4XCmqOwtZdRcHjq+OqM+Bjc+csX3M2cdzopkrTr4JlVewCo6s6DolfgJrUeJYrlbfQDL2DQHT+fXAeXrBnz13rVRQiZMQMsgouZpbTMCjEyo9hv9Q2mM26OSAw5Y27bYw1WA3NCuNLoQRdhEVZAy1GXAicUALDnssmzc86R/0eqKwctOv4bpOw48tkoM6ZdSSo1a+8c4M96hwbZY8uX3Vc2+DysK9cDAWvsTEoiwYSDlH/G9IUW5HmzNXqVh5hmaj4VxnfYrMwvXdBO3cejiznNE7PXZJrltVc8btOwmjeaQsdvLtrQue4r3TOHXBdbbPgvmpifwvMoQBny7Si/Lzvu6aTrAjeLYa4mAezUk7aY6ezU8M441vmP2sTM2gjdK6/1tXDoWbqfu6filwr8hdou5MI4uB5DFIb4kiwzN2dGNkH/0jhoCjZFUfeAYqs9UL60fYGQqQsmEzvOqDKRK2xEilr0aWRS4sl8gDalIL1TIgPrKevuK6tmTkjnwKsVaHTcLoLTNIjXmlSadpA3/Q3BcqO84ZfiT2j6nubdJZXunPglxNK4JyBaaH4e02G1JjMqOzT1RQlq9RE2CIHGb1h5x/BJwV61UIji9mPwijWDQ== nicoklaus@proxmox
+                    EOT,
+                ]
+              + password = (sensitive value)
+              + username = "ubuntu"
+            }
+        }
+
+      + memory {
+          + dedicated = 2048
+          + floating  = 0
+          + shared    = 0
+        }
+
+      + network_device {
+          + bridge      = "vmbr0"
+          + enabled     = true
+          + firewall    = false
+          + mac_address = (known after apply)
+          + model       = "virtio"
+          + mtu         = 0
+          + queues      = 0
+          + rate_limit  = 0
+          + vlan_id     = 0
+        }
+    }
+
+  # proxmox_virtual_environment_vm.new_servers["107"] will be created
+  + resource "proxmox_virtual_environment_vm" "new_servers" {
+      + acpi                    = true
+      + bios                    = "seabios"
+      + id                      = (known after apply)
+      + ipv4_addresses          = (known after apply)
+      + ipv6_addresses          = (known after apply)
+      + keyboard_layout         = "en-us"
+      + mac_addresses           = (known after apply)
+      + migrate                 = false
+      + name                    = "database-server"
+      + network_interface_names = (known after apply)
+      + node_name               = "nico"
+      + on_boot                 = true
+      + protection              = false
+      + reboot                  = false
+      + scsi_hardware           = "virtio-scsi-pci"
+      + started                 = true
+      + stop_on_destroy         = false
+      + tablet_device           = true
+      + template                = false
+      + timeout_clone           = 1800
+      + timeout_create          = 1800
+      + timeout_migrate         = 1800
+      + timeout_move_disk       = 1800
+      + timeout_reboot          = 1800
+      + timeout_shutdown_vm     = 1800
+      + timeout_start_vm        = 1800
+      + timeout_stop_vm         = 300
+      + vm_id                   = 107
+
+      + agent {
+          + enabled = true
+          + timeout = "15m"
+          + trim    = false
+          + type    = "virtio"
+        }
+
+      + clone {
+          + full    = true
+          + retries = 1
+          + vm_id   = 9000
+        }
+
+      + cpu {
+          + architecture = "x86_64"
+          + cores        = 2
+          + hotplugged   = 0
+          + limit        = 0
+          + numa         = false
+          + sockets      = 1
+          + type         = "qemu64"
+          + units        = 1024
+        }
+
+      + disk {
+          + aio               = "io_uring"
+          + backup            = true
+          + cache             = "none"
+          + datastore_id      = "local-lvm"
+          + discard           = "ignore"
+          + file_format       = (known after apply)
+          + interface         = "scsi0"
+          + iothread          = false
+          + path_in_datastore = (known after apply)
+          + replicate         = true
+          + size              = 20
+          + ssd               = false
+        }
+
+      + initialization {
+          + datastore_id = "local-lvm"
+          + interface    = "ide2"
+
+          + ip_config {
+              + ipv4 {
+                  + address = "192.168.122.207/24"
+                  + gateway = "192.168.122.1"
+                }
+            }
+
+          + user_account {
+              + keys     = [
+                  + <<-EOT
+                        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCcvcpOY4B7sbqEU1WIyF9OH4CJSsYAeIM+ElKVCZ69THhnJZXs8cQ+T5mDjuLTaX4XCmqOwtZdRcHjq+OqM+Bjc+csX3M2cdzopkrTr4JlVewCo6s6DolfgJrUeJYrlbfQDL2DQHT+fXAeXrBnz13rVRQiZMQMsgouZpbTMCjEyo9hv9Q2mM26OSAw5Y27bYw1WA3NCuNLoQRdhEVZAy1GXAicUALDnssmzc86R/0eqKwctOv4bpOw48tkoM6ZdSSo1a+8c4M96hwbZY8uX3Vc2+DysK9cDAWvsTEoiwYSDlH/G9IUW5HmzNXqVh5hmaj4VxnfYrMwvXdBO3cejiznNE7PXZJrltVc8btOwmjeaQsdvLtrQue4r3TOHXBdbbPgvmpifwvMoQBny7Si/Lzvu6aTrAjeLYa4mAezUk7aY6ezU8M441vmP2sTM2gjdK6/1tXDoWbqfu6filwr8hdou5MI4uB5DFIb4kiwzN2dGNkH/0jhoCjZFUfeAYqs9UL60fYGQqQsmEzvOqDKRK2xEilr0aWRS4sl8gDalIL1TIgPrKevuK6tmTkjnwKsVaHTcLoLTNIjXmlSadpA3/Q3BcqO84ZfiT2j6nubdJZXunPglxNK4JyBaaH4e02G1JjMqOzT1RQlq9RE2CIHGb1h5x/BJwV61UIji9mPwijWDQ== nicoklaus@proxmox
+                    EOT,
+                ]
+              + password = (sensitive value)
+              + username = "ubuntu"
+            }
+        }
+
+      + memory {
+          + dedicated = 2048
+          + floating  = 0
+          + shared    = 0
+        }
+
+      + network_device {
+          + bridge      = "vmbr0"
+          + enabled     = true
+          + firewall    = false
+          + mac_address = (known after apply)
+          + model       = "virtio"
+          + mtu         = 0
+          + queues      = 0
+          + rate_limit  = 0
+          + vlan_id     = 0
+        }
+    }
+
+  # proxmox_virtual_environment_vm.new_servers["108"] will be created
+  + resource "proxmox_virtual_environment_vm" "new_servers" {
+      + acpi                    = true
+      + bios                    = "seabios"
+      + id                      = (known after apply)
+      + ipv4_addresses          = (known after apply)
+      + ipv6_addresses          = (known after apply)
+      + keyboard_layout         = "en-us"
+      + mac_addresses           = (known after apply)
+      + migrate                 = false
+      + name                    = "frontend-server-2"
+      + network_interface_names = (known after apply)
+      + node_name               = "nico"
+      + on_boot                 = true
+      + protection              = false
+      + reboot                  = false
+      + scsi_hardware           = "virtio-scsi-pci"
+      + started                 = true
+      + stop_on_destroy         = false
+      + tablet_device           = true
+      + template                = false
+      + timeout_clone           = 1800
+      + timeout_create          = 1800
+      + timeout_migrate         = 1800
+      + timeout_move_disk       = 1800
+      + timeout_reboot          = 1800
+      + timeout_shutdown_vm     = 1800
+      + timeout_start_vm        = 1800
+      + timeout_stop_vm         = 300
+      + vm_id                   = 108
+
+      + agent {
+          + enabled = true
+          + timeout = "15m"
+          + trim    = false
+          + type    = "virtio"
+        }
+
+      + clone {
+          + full    = true
+          + retries = 1
+          + vm_id   = 9000
+        }
+
+      + cpu {
+          + architecture = "x86_64"
+          + cores        = 2
+          + hotplugged   = 0
+          + limit        = 0
+          + numa         = false
+          + sockets      = 1
+          + type         = "qemu64"
+          + units        = 1024
+        }
+
+      + disk {
+          + aio               = "io_uring"
+          + backup            = true
+          + cache             = "none"
+          + datastore_id      = "local-lvm"
+          + discard           = "ignore"
+          + file_format       = (known after apply)
+          + interface         = "scsi0"
+          + iothread          = false
+          + path_in_datastore = (known after apply)
+          + replicate         = true
+          + size              = 20
+          + ssd               = false
+        }
+
+      + initialization {
+          + datastore_id = "local-lvm"
+          + interface    = "ide2"
+
+          + ip_config {
+              + ipv4 {
+                  + address = "192.168.122.208/24"
+                  + gateway = "192.168.122.1"
+                }
+            }
+
+          + user_account {
+              + keys     = [
+                  + <<-EOT
+                        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCcvcpOY4B7sbqEU1WIyF9OH4CJSsYAeIM+ElKVCZ69THhnJZXs8cQ+T5mDjuLTaX4XCmqOwtZdRcHjq+OqM+Bjc+csX3M2cdzopkrTr4JlVewCo6s6DolfgJrUeJYrlbfQDL2DQHT+fXAeXrBnz13rVRQiZMQMsgouZpbTMCjEyo9hv9Q2mM26OSAw5Y27bYw1WA3NCuNLoQRdhEVZAy1GXAicUALDnssmzc86R/0eqKwctOv4bpOw48tkoM6ZdSSo1a+8c4M96hwbZY8uX3Vc2+DysK9cDAWvsTEoiwYSDlH/G9IUW5HmzNXqVh5hmaj4VxnfYrMwvXdBO3cejiznNE7PXZJrltVc8btOwmjeaQsdvLtrQue4r3TOHXBdbbPgvmpifwvMoQBny7Si/Lzvu6aTrAjeLYa4mAezUk7aY6ezU8M441vmP2sTM2gjdK6/1tXDoWbqfu6filwr8hdou5MI4uB5DFIb4kiwzN2dGNkH/0jhoCjZFUfeAYqs9UL60fYGQqQsmEzvOqDKRK2xEilr0aWRS4sl8gDalIL1TIgPrKevuK6tmTkjnwKsVaHTcLoLTNIjXmlSadpA3/Q3BcqO84ZfiT2j6nubdJZXunPglxNK4JyBaaH4e02G1JjMqOzT1RQlq9RE2CIHGb1h5x/BJwV61UIji9mPwijWDQ== nicoklaus@proxmox
+                    EOT,
+                ]
+              + password = (sensitive value)
+              + username = "ubuntu"
+            }
+        }
+
+      + memory {
+          + dedicated = 2048
+          + floating  = 0
+          + shared    = 0
+        }
+
+      + network_device {
+          + bridge      = "vmbr0"
+          + enabled     = true
+          + firewall    = false
+          + mac_address = (known after apply)
+          + model       = "virtio"
+          + mtu         = 0
+          + queues      = 0
+          + rate_limit  = 0
+          + vlan_id     = 0
+        }
+    }
+
+  # proxmox_virtual_environment_vm.new_servers["109"] will be created
+  + resource "proxmox_virtual_environment_vm" "new_servers" {
+      + acpi                    = true
+      + bios                    = "seabios"
+      + id                      = (known after apply)
+      + ipv4_addresses          = (known after apply)
+      + ipv6_addresses          = (known after apply)
+      + keyboard_layout         = "en-us"
+      + mac_addresses           = (known after apply)
+      + migrate                 = false
+      + name                    = "backend-server-2"
+      + network_interface_names = (known after apply)
+      + node_name               = "nico"
+      + on_boot                 = true
+      + protection              = false
+      + reboot                  = false
+      + scsi_hardware           = "virtio-scsi-pci"
+      + started                 = true
+      + stop_on_destroy         = false
+      + tablet_device           = true
+      + template                = false
+      + timeout_clone           = 1800
+      + timeout_create          = 1800
+      + timeout_migrate         = 1800
+      + timeout_move_disk       = 1800
+      + timeout_reboot          = 1800
+      + timeout_shutdown_vm     = 1800
+      + timeout_start_vm        = 1800
+      + timeout_stop_vm         = 300
+      + vm_id                   = 109
+
+      + agent {
+          + enabled = true
+          + timeout = "15m"
+          + trim    = false
+          + type    = "virtio"
+        }
+
+      + clone {
+          + full    = true
+          + retries = 1
+          + vm_id   = 9000
+        }
+
+      + cpu {
+          + architecture = "x86_64"
+          + cores        = 2
+          + hotplugged   = 0
+          + limit        = 0
+          + numa         = false
+          + sockets      = 1
+          + type         = "qemu64"
+          + units        = 1024
+        }
+
+      + disk {
+          + aio               = "io_uring"
+          + backup            = true
+          + cache             = "none"
+          + datastore_id      = "local-lvm"
+          + discard           = "ignore"
+          + file_format       = (known after apply)
+          + interface         = "scsi0"
+          + iothread          = false
+          + path_in_datastore = (known after apply)
+          + replicate         = true
+          + size              = 20
+          + ssd               = false
+        }
+
+      + initialization {
+          + datastore_id = "local-lvm"
+          + interface    = "ide2"
+
+          + ip_config {
+              + ipv4 {
+                  + address = "192.168.122.209/24"
+                  + gateway = "192.168.122.1"
+                }
+            }
+
+          + user_account {
+              + keys     = [
+                  + <<-EOT
+                        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCcvcpOY4B7sbqEU1WIyF9OH4CJSsYAeIM+ElKVCZ69THhnJZXs8cQ+T5mDjuLTaX4XCmqOwtZdRcHjq+OqM+Bjc+csX3M2cdzopkrTr4JlVewCo6s6DolfgJrUeJYrlbfQDL2DQHT+fXAeXrBnz13rVRQiZMQMsgouZpbTMCjEyo9hv9Q2mM26OSAw5Y27bYw1WA3NCuNLoQRdhEVZAy1GXAicUALDnssmzc86R/0eqKwctOv4bpOw48tkoM6ZdSSo1a+8c4M96hwbZY8uX3Vc2+DysK9cDAWvsTEoiwYSDlH/G9IUW5HmzNXqVh5hmaj4VxnfYrMwvXdBO3cejiznNE7PXZJrltVc8btOwmjeaQsdvLtrQue4r3TOHXBdbbPgvmpifwvMoQBny7Si/Lzvu6aTrAjeLYa4mAezUk7aY6ezU8M441vmP2sTM2gjdK6/1tXDoWbqfu6filwr8hdou5MI4uB5DFIb4kiwzN2dGNkH/0jhoCjZFUfeAYqs9UL60fYGQqQsmEzvOqDKRK2xEilr0aWRS4sl8gDalIL1TIgPrKevuK6tmTkjnwKsVaHTcLoLTNIjXmlSadpA3/Q3BcqO84ZfiT2j6nubdJZXunPglxNK4JyBaaH4e02G1JjMqOzT1RQlq9RE2CIHGb1h5x/BJwV61UIji9mPwijWDQ== nicoklaus@proxmox
+                    EOT,
+                ]
+              + password = (sensitive value)
+              + username = "ubuntu"
+            }
+        }
+
+      + memory {
+          + dedicated = 2048
+          + floating  = 0
+          + shared    = 0
+        }
+
+      + network_device {
+          + bridge      = "vmbr0"
+          + enabled     = true
+          + firewall    = false
+          + mac_address = (known after apply)
+          + model       = "virtio"
+          + mtu         = 0
+          + queues      = 0
+          + rate_limit  = 0
+          + vlan_id     = 0
+        }
+    }
+
+Plan: 5 to add, 0 to change, 5 to destroy.
+
+Changes to Outputs:
+  - additional_vm_ips = {
+      - backup-server = "192.168.122.206/24"
+      - bastion-host  = "192.168.122.203/24"
+    } -> null
+  ~ all_vm_ips        = {
+      + "100"             = {
+          + ip   = "192.168.122.200"
+          + name = "ci-server"
+          + role = "ci"
+        }
+      + "101"             = {
+          + ip   = "192.168.122.201"
+          + name = "app-server"
+          + role = "app"
+        }
+      + "102"             = {
+          + ip   = "192.168.122.202"
+          + name = "monitoring-server"
+          + role = "monitoring"
+        }
+      + "103"             = {
+          + ip   = "192.168.122.203"
+          + name = "bastion-host"
+          + role = "bastion"
+        }
+      + "106"             = {
+          + ip   = "192.168.122.206"
+          + name = "backup-server"
+          + role = "backup"
+        }
+      - app-server        = "192.168.122.201/24"
+      + backend-server-1  = "192.168.122.205/24"
+      + backend-server-2  = "192.168.122.209/24"
+      - backup-server     = "192.168.122.206/24"
+      - bastion-host      = "192.168.122.203/24"
+      - ci-server         = "192.168.122.200/24"
+      + database-server   = "192.168.122.207/24"
+      + frontend-server-2 = "192.168.122.208/24"
+      + load-balancer     = "192.168.122.204/24"
+      - monitoring-server = "192.168.122.202/24"
+    }
+  - core_vm_ips       = {
+      - app-server        = "192.168.122.201/24"
+      - ci-server         = "192.168.122.200/24"
+      - monitoring-server = "192.168.122.202/24"
+    } -> null
+  - deployment_status = {
+      - additional_vms_deployed = true
+      - core_vms_deployed       = true
+      - total_additional_vms    = 2
+      - total_core_vms          = 3
+    } -> null
+  + new_vm_ips        = {
+      + backend-server-1  = "192.168.122.205/24"
+      + backend-server-2  = "192.168.122.209/24"
+      + database-server   = "192.168.122.207/24"
+      + frontend-server-2 = "192.168.122.208/24"
+      + load-balancer     = "192.168.122.204/24"
+    }
+  ~ ssh_access        = {
+      - app-server        = "ssh ubuntu@192.168.122.201/24"
+      + backend-server-1  = "ssh ubuntu@192.168.122.205/24"
+      + backend-server-2  = "ssh ubuntu@192.168.122.209/24"
+      - backup-server     = "ssh ubuntu@192.168.122.206/24"
+      - bastion-host      = "ssh ubuntu@192.168.122.203/24"
+      - ci-server         = "ssh ubuntu@192.168.122.200/24"
+      + database-server   = "ssh ubuntu@192.168.122.207/24"
+      + frontend-server-2 = "ssh ubuntu@192.168.122.208/24"
+      + load-balancer     = "ssh ubuntu@192.168.122.204/24"
+      - monitoring-server = "ssh ubuntu@192.168.122.202/24"
+    }
+
+───────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+nicoklaus@nicoklaus-Nitro-AN515-54:~/terraform-proxmox$ 
+
+
+
+
+
+
+
+
+
+terraform {
+  required_version = ">= 1.0"
+  required_providers {
+    proxmox = {
+      source  = "bpg/proxmox"
+      version = "0.50.0"
+    }
+  }
+}
+
+provider "proxmox" {
+  endpoint = "https://192.168.122.161:8006/api2/json"
+  insecure = true
+  username = "root@pam"
+  password = "1234nico"
+}
+
+# Variables globales
+locals {
+  # Configuration réseau
+  network_config = {
+    gateway = "192.168.122.1"
+    subnet  = "192.168.122.0/24"
+  }
+  
+  # Configuration des VMs
+  vm_config = {
+    cpu_cores    = 2
+    memory_gb    = 2
+    disk_size_gb = 20
+    template_id  = 9000
+  }
+  
+  # Utilisateur par défaut
+  default_user = {
+    username = "ubuntu"
+    password = "1234nico"
+  }
+  
+  # VMs principales (déployées en premier)
+  core_vms = {
+    100 = { name = "ci-server",         ip = "192.168.122.200", role = "ci" }
+    101 = { name = "app-server",        ip = "192.168.122.201", role = "app" }
+    102 = { name = "monitoring-server", ip = "192.168.122.202", role = "monitoring" }
+  }
+  
+  # VMs supplémentaires (déployées séparément)
+  additional_vms = {
+    103 = { name = "bastion-host",      ip = "192.168.122.203", role = "bastion" }
+    106 = { name = "backup-server",     ip = "192.168.122.206", role = "backup" }
+  }
+}
+
+# Variables de contrôle
+variable "deploy_core_vms" {
+  description = "Déployer les VMs principales (ci, app, monitoring)"
+  type        = bool
+  default     = true
+}
+
+variable "deploy_additional_vms" {
+  description = "Déployer les VMs supplémentaires (bastion, backup)"
+  type        = bool
+  default     = false
+}
+
+# VMs principales
+resource "proxmox_virtual_environment_vm" "core_servers" {
+  for_each = var.deploy_core_vms ? local.core_vms : {}
+  
+  name      = each.value.name
+  node_name = "nico"
+  vm_id     = each.key
+  started   = true
+  on_boot   = true
+
+  clone {
+    vm_id = local.vm_config.template_id
+  }
+
+  cpu {
+    cores   = local.vm_config.cpu_cores
+    sockets = 2
+  }
+
+  memory {
+    dedicated = local.vm_config.memory_gb * 2048
+  }
+
+  disk {
+    datastore_id = "local-lvm"
+    size         = local.vm_config.disk_size_gb
+    interface    = "scsi0"
+  }
+
+  network_device {
+    bridge = "vmbr0"
+    model  = "virtio"
+  }
+
+  agent {
+    enabled = true
+    type    = "virtio"
+  }
+
+  initialization {
+    datastore_id = "local-lvm"
+    interface    = "ide2"
+
+    ip_config {
+      ipv4 {
+        address = "${each.value.ip}/24"
+        gateway = local.network_config.gateway
+      }
+    }
+
+    user_account {
+      username = local.default_user.username
+      password = local.default_user.password
+      keys     = [file("~/.ssh/id_rsa.pub")]
+    }
+  }
+}
+
+# VMs supplémentaires
+resource "proxmox_virtual_environment_vm" "additional_servers" {
+  for_each = var.deploy_additional_vms ? local.additional_vms : {}
+  
+  name      = each.value.name
+  node_name = "nico"
+  vm_id     = each.key
+  started   = true
+  on_boot   = true
+
+  clone {
+    vm_id = local.vm_config.template_id
+  }
+
+  cpu {
+    cores   = local.vm_config.cpu_cores
+    sockets = 1
+  }
+
+  memory {
+    dedicated = local.vm_config.memory_gb * 1024
+  }
+
+  disk {
+    datastore_id = "local-lvm"
+    size         = local.vm_config.disk_size_gb
+    interface    = "scsi0"
+  }
+
+  network_device {
+    bridge = "vmbr0"
+    model  = "virtio"
+  }
+
+  agent {
+    enabled = true
+    type    = "virtio"
+  }
+
+  initialization {
+    datastore_id = "local-lvm"
+    interface    = "ide2"
+
+    ip_config {
+      ipv4 {
+        address = "${each.value.ip}/24"
+        gateway = local.network_config.gateway
+      }
+    }
+
+    user_account {
+      username = local.default_user.username
+      password = local.default_user.password
+      keys     = [file("~/.ssh/id_rsa.pub")]
+    }
+  }
+}
+
+# Outputs consolidés
+output "core_vm_ips" {
+  description = "IPs des VMs principales"
+  value = {
+    for vm in proxmox_virtual_environment_vm.core_servers :
+    vm.name => vm.initialization[0].ip_config[0].ipv4[0].address
+  }
+}
+
+output "additional_vm_ips" {
+  description = "IPs des VMs supplémentaires"
+  value = {
+    for vm in proxmox_virtual_environment_vm.additional_servers :
+    vm.name => vm.initialization[0].ip_config[0].ipv4[0].address
+  }
+}
+
+output "all_vm_ips" {
+  description = "Toutes les IPs des VMs"
+  value = merge(
+    { for vm in proxmox_virtual_environment_vm.core_servers :
+      vm.name => vm.initialization[0].ip_config[0].ipv4[0].address
+    },
+    { for vm in proxmox_virtual_environment_vm.additional_servers :
+      vm.name => vm.initialization[0].ip_config[0].ipv4[0].address
+    }
+  )
+}
+
+output "ssh_access" {
+  description = "Commandes SSH pour accéder aux VMs"
+  value = merge(
+    { for vm in proxmox_virtual_environment_vm.core_servers :
+      vm.name => "ssh ${local.default_user.username}@${vm.initialization[0].ip_config[0].ipv4[0].address}"
+    },
+    { for vm in proxmox_virtual_environment_vm.additional_servers :
+      vm.name => "ssh ${local.default_user.username}@${vm.initialization[0].ip_config[0].ipv4[0].address}"
+    }
+  )
+}
+
+output "deployment_status" {
+  description = "Statut du déploiement"
+  value = {
+    core_vms_deployed      = var.deploy_core_vms
+    additional_vms_deployed = var.deploy_additional_vms
+    total_core_vms         = length(local.core_vms)
+    total_additional_vms   = length(local.additional_vms)
+  }
+}
+
+
+
+
+
+new main.tf
+
+
+
+terraform {
+  required_version = ">= 1.0"
+  required_providers {
+    proxmox = {
+      source  = "bpg/proxmox"
+      version = "0.50.0"
+    }
+  }
+}
+
+provider "proxmox" {
+  endpoint = "https://192.168.122.161:8006/api2/json"
+  insecure = true
+  username = "root@pam"
+  password = "1234nico"
+}
+
+# Variables globales
+locals {
+  # Configuration réseau
+  network_config = {
+    gateway = "192.168.122.1"
+    subnet  = "192.168.122.0/24"
+  }
+  
+  # Configuration des VMs
+  vm_config = {
+    cpu_cores    = 2
+    memory_gb    = 2
+    disk_size_gb = 20
+    template_id  = 9000
+  }
+  
+  # Utilisateur par défaut
+  default_user = {
+    username = "ubuntu"
+    password = "1234nico"
+  }
+  
+  # VMs principales (déployées en premier)
+  core_vms = {
+    100 = { name = "ci-server",         ip = "192.168.122.200", role = "ci" }
+    101 = { name = "app-server",        ip = "192.168.122.201", role = "app" }
+    102 = { name = "monitoring-server", ip = "192.168.122.202", role = "monitoring" }
+  }
+  
+  # VMs supplémentaires (déployées séparément)
+  additional_vms = {
+    103 = { name = "bastion-host",      ip = "192.168.122.203", role = "bastion" }
+    106 = { name = "backup-server",     ip = "192.168.122.206", role = "backup" }
+  }
+  
+  # NOUVELLES VMs pour l'architecture multi-tier
+  new_vms = {
+    104 = { name = "load-balancer",     ip = "192.168.122.204", role = "loadbalancer" }
+    105 = { name = "backend-server-1",  ip = "192.168.122.205", role = "backend" }
+    107 = { name = "database-server",   ip = "192.168.122.207", role = "database" }
+    108 = { name = "frontend-server-2", ip = "192.168.122.208", role = "frontend" }
+    109 = { name = "backend-server-2",  ip = "192.168.122.209", role = "backend" }
+  }
+}
+
+# Variables de contrôle
+variable "deploy_core_vms" {
+  description = "Déployer les VMs principales (ci, app, monitoring)"
+  type        = bool
+  default     = true
+}
+
+variable "deploy_additional_vms" {
+  description = "Déployer les VMs supplémentaires (bastion, backup)"
+  type        = bool
+  default     = false
+}
+
+# NOUVELLE VARIABLE pour les 5 nouvelles VMs
+variable "deploy_new_vms" {
+  description = "Déployer les nouvelles VMs (Load Balancer, Backend, Database, Frontend 2)"
+  type        = bool
+  default     = false  # Par défaut, ne pas déployer
+}
+
+# VMs principales
+resource "proxmox_virtual_environment_vm" "core_servers" {
+  for_each = var.deploy_core_vms ? local.core_vms : {}
+  
+  name      = each.value.name
+  node_name = "nico"
+  vm_id     = each.key
+  started   = true
+  on_boot   = true
+
+  clone {
+    vm_id = local.vm_config.template_id
+  }
+
+  cpu {
+    cores   = local.vm_config.cpu_cores
+    sockets = 2
+  }
+
+  memory {
+    dedicated = local.vm_config.memory_gb * 2048
+  }
+
+  disk {
+    datastore_id = "local-lvm"
+    size         = local.vm_config.disk_size_gb
+    interface    = "scsi0"
+  }
+
+  network_device {
+    bridge = "vmbr0"
+    model  = "virtio"
+  }
+
+  agent {
+    enabled = true
+    type    = "virtio"
+  }
+
+  initialization {
+    datastore_id = "local-lvm"
+    interface    = "ide2"
+
+    ip_config {
+      ipv4 {
+        address = "${each.value.ip}/24"
+        gateway = local.network_config.gateway
+      }
+    }
+
+    user_account {
+      username = local.default_user.username
+      password = local.default_user.password
+      keys     = [file("~/.ssh/id_rsa.pub")]
+    }
+  }
+}
+
+# VMs supplémentaires
+resource "proxmox_virtual_environment_vm" "additional_servers" {
+  for_each = var.deploy_additional_vms ? local.additional_vms : {}
+  
+  name      = each.value.name
+  node_name = "nico"
+  vm_id     = each.key
+  started   = true
+  on_boot   = true
+
+  clone {
+    vm_id = local.vm_config.template_id
+  }
+
+  cpu {
+    cores   = local.vm_config.cpu_cores
+    sockets = 1
+  }
+
+  memory {
+    dedicated = local.vm_config.memory_gb * 1024
+  }
+
+  disk {
+    datastore_id = "local-lvm"
+    size         = local.vm_config.disk_size_gb
+    interface    = "scsi0"
+  }
+
+  network_device {
+    bridge = "vmbr0"
+    model  = "virtio"
+  }
+
+  agent {
+    enabled = true
+    type    = "virtio"
+  }
+
+  initialization {
+    datastore_id = "local-lvm"
+    interface    = "ide2"
+
+    ip_config {
+      ipv4 {
+        address = "${each.value.ip}/24"
+        gateway = local.network_config.gateway
+      }
+    }
+
+    user_account {
+      username = local.default_user.username
+      password = local.default_user.password
+      keys     = [file("~/.ssh/id_rsa.pub")]
+    }
+  }
+}
+
+# NOUVELLES VMs pour l'architecture multi-tier
+resource "proxmox_virtual_environment_vm" "new_servers" {
+  for_each = var.deploy_new_vms ? local.new_vms : {}
+  
+  name      = each.value.name
+  node_name = "nico"
+  vm_id     = each.key
+  started   = true
+  on_boot   = true
+
+  clone {
+    vm_id = local.vm_config.template_id
+  }
+
+  cpu {
+    cores   = local.vm_config.cpu_cores
+    sockets = 1
+  }
+
+  memory {
+    dedicated = local.vm_config.memory_gb * 1024
+  }
+
+  disk {
+    datastore_id = "local-lvm"
+    size         = local.vm_config.disk_size_gb
+    interface    = "scsi0"
+  }
+
+  network_device {
+    bridge = "vmbr0"
+    model  = "virtio"
+  }
+
+  agent {
+    enabled = true
+    type    = "virtio"
+  }
+
+  initialization {
+    datastore_id = "local-lvm"
+    interface    = "ide2"
+
+    ip_config {
+      ipv4 {
+        address = "${each.value.ip}/24"
+        gateway = local.network_config.gateway
+      }
+    }
+
+    user_account {
+      username = local.default_user.username
+      password = local.default_user.password
+      keys     = [file("~/.ssh/id_rsa.pub")]
+    }
+  }
+}
+
+# Outputs consolidés
+output "core_vm_ips" {
+  description = "IPs des VMs principales"
+  value = {
+    for vm in proxmox_virtual_environment_vm.core_servers :
+    vm.name => vm.initialization[0].ip_config[0].ipv4[0].address
+  }
+}
+
+output "additional_vm_ips" {
+  description = "IPs des VMs supplémentaires"
+  value = {
+    for vm in proxmox_virtual_environment_vm.additional_servers :
+    vm.name => vm.initialization[0].ip_config[0].ipv4[0].address
+  }
+}
+
+# NOUVEL OUTPUT pour les nouvelles VMs
+output "new_vm_ips" {
+  description = "IPs des nouvelles VMs"
+  value = {
+    for vm in proxmox_virtual_environment_vm.new_servers :
+    vm.name => vm.initialization[0].ip_config[0].ipv4[0].address
+  }
+}
+
+output "all_vm_ips" {
+  description = "Toutes les IPs des VMs"
+  value = merge(
+    { for vm in proxmox_virtual_environment_vm.core_servers :
+      vm.name => vm.initialization[0].ip_config[0].ipv4[0].address
+    },
+    { for vm in proxmox_virtual_environment_vm.additional_servers :
+      vm.name => vm.initialization[0].ip_config[0].ipv4[0].address
+    },
+    { for vm in proxmox_virtual_environment_vm.new_servers :
+      vm.name => vm.initialization[0].ip_config[0].ipv4[0].address
+    }
+  )
+}
+
+output "ssh_access" {
+  description = "Commandes SSH pour accéder aux VMs"
+  value = merge(
+    { for vm in proxmox_virtual_environment_vm.core_servers :
+      vm.name => "ssh ${local.default_user.username}@${vm.initialization[0].ip_config[0].ipv4[0].address}"
+    },
+    { for vm in proxmox_virtual_environment_vm.additional_servers :
+      vm.name => "ssh ${local.default_user.username}@${vm.initialization[0].ip_config[0].ipv4[0].address}"
+    },
+    { for vm in proxmox_virtual_environment_vm.new_servers :
+      vm.name => "ssh ${local.default_user.username}@${vm.initialization[0].ip_config[0].ipv4[0].address}"
+    }
+  )
+}
+
+output "deployment_status" {
+  description = "Statut du déploiement"
+  value = {
+    core_vms_deployed      = var.deploy_core_vms
+    additional_vms_deployed = var.deploy_additional_vms
+    new_vms_deployed       = var.deploy_new_vms
+    total_core_vms         = length(local.core_vms)
+    total_additional_vms   = length(local.additional_vms)
+    total_new_vms          = length(local.new_vms)
+  }
+}
+
+
+nicoklaus@nicoklaus-Nitro-AN515-54:~/terraform-proxmox$ terraform init
+Initializing the backend...
+╷
+│ Error: Terraform encountered problems during initialisation, including problems
+│ with the configuration, described below.
+│ 
+│ The Terraform configuration must be valid before initialization so that
+│ Terraform can determine which modules and providers need to be installed.
+│ 
+│ 
+╵
+╷
+│ Error: Invalid expression
+│ 
+│   on main.tf line 92, in resource "proxmox_virtual_environment_vm" "existing_servers":
+│   92:     dedicated = each.key == 100 || each.key == 101 || each.key == 102 ? 
+│   93:                 local.vm_config.memory_gb * 2048 : 
+│ 
+│ Expected the start of an expression, but found an invalid expression token.
+╵
+╷
+│ Error: Argument or block definition required
+│ 
+│   on main.tf line 93, in resource "proxmox_virtual_environment_vm" "existing_servers":
+│   93:                 local.vm_config.memory_gb * 2048 : 
+│ 
+│ An argument or block definition is required here. To set an argument, use the
+│ equals sign "=" to introduce the argument value.
+╵
+╷
+│ Error: Argument or block definition required
+│ 
+│   on main.tf line 94, in resource "proxmox_virtual_environment_vm" "existing_servers":
+│   94:                 local.vm_config.memory_gb * 1024
+│ 
+│ An argument or block definition is required here. To set an argument, use the
+│ equals sign "=" to introduce the argument value.
+╵
+nicoklaus@nicoklaus-Nitro-AN515-54:~/terraform-proxmox$ 
+
+
+
+
+nicoklaus@nicoklaus-Nitro-AN515-54:~/terraform-proxmox$ terraform init
+Initializing the backend...
+╷
+│ Error: Terraform encountered problems during initialisation, including problems
+│ with the configuration, described below.
+│ 
+│ The Terraform configuration must be valid before initialization so that
+│ Terraform can determine which modules and providers need to be installed.
+│ 
+│ 
+╵
+╷
+│ Error: Invalid expression
+│ 
+│   on main.tf line 92, in resource "proxmox_virtual_environment_vm" "existing_servers":
+│   92:     dedicated = each.key == 100 || each.key == 101 || each.key == 102 ? 
+│   93:                 local.vm_config.memory_gb * 2048 : 
+│ 
+│ Expected the start of an expression, but found an invalid expression token.
+╵
+╷
+│ Error: Argument or block definition required
+│ 
+│   on main.tf line 93, in resource "proxmox_virtual_environment_vm" "existing_servers":
+│   93:                 local.vm_config.memory_gb * 2048 : 
+│ 
+│ An argument or block definition is required here. To set an argument, use the
+│ equals sign "=" to introduce the argument value.
+╵
+╷
+│ Error: Argument or block definition required
+│ 
+│   on main.tf line 94, in resource "proxmox_virtual_environment_vm" "existing_servers":
+│   94:                 local.vm_config.memory_gb * 1024
+│ 
+│ An argument or block definition is required here. To set an argument, use the
+│ equals sign "=" to introduce the argument value.
+╵
+nicoklaus@nicoklaus-Nitro-AN515-54:~/terraform-proxmox$ 
+
+terraform plan -var="deploy_new_vms=true"
+
+
+
+Plan: 10 to add, 0 to change, 5 to destroy.
+
+Changes to Outputs:
+  - additional_vm_ips = {
+      - backup-server = "192.168.122.206/24"
+      - bastion-host  = "192.168.122.203/24"
+    } -> null
+  ~ all_vm_ips        = {
+      + backend-server-1  = "192.168.122.205/24"
+      + backend-server-2  = "192.168.122.209/24"
+      + database-server   = "192.168.122.207/24"
+      + frontend-server-2 = "192.168.122.208/24"
+      + load-balancer     = "192.168.122.204/24"
+        # (5 unchanged attributes hidden)
+    }
+  - core_vm_ips       = {
+      - app-server        = "192.168.122.201/24"
+      - ci-server         = "192.168.122.200/24"
+      - monitoring-server = "192.168.122.202/24"
+    } -> null
+  ~ deployment_status = {
+      - additional_vms_deployed = true
+      - core_vms_deployed       = true
+      + existing_vms_deployed   = true
+      + new_vms_deployed        = true
+      - total_additional_vms    = 2
+      - total_core_vms          = 3
+      + total_existing_vms      = 5
+      + total_new_vms           = 5
+    }
+  + existing_vm_ips   = {
+      + app-server        = "192.168.122.201/24"
+      + backup-server     = "192.168.122.206/24"
+      + bastion-host      = "192.168.122.203/24"
+      + ci-server         = "192.168.122.200/24"
+      + monitoring-server = "192.168.122.202/24"
+    }
+  + new_vm_ips        = {
+      + backend-server-1  = "192.168.122.205/24"
+      + backend-server-2  = "192.168.122.209/24"
+      + database-server   = "192.168.122.207/24"
+      + frontend-server-2 = "192.168.122.208/24"
+      + load-balancer     = "192.168.122.204/24"
+    }
+  ~ ssh_access        = {
+      + backend-server-1  = "ssh ubuntu@192.168.122.205/24"
+      + backend-server-2  = "ssh ubuntu@192.168.122.209/24"
+      + database-server   = "ssh ubuntu@192.168.122.207/24"
+      + frontend-server-2 = "ssh ubuntu@192.168.122.208/24"
+      + load-balancer     = "ssh ubuntu@192.168.122.204/24"
+        # (5 unchanged attributes hidden)
+    }
+
+───────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+nicoklaus@nicoklaus-Nitro-AN515-54:~/terraform-proxmox$ 
+
+
+
+
+
+lan: 5 to add, 0 to change, 5 to destroy.
+
+Changes to Outputs:
+  - additional_vm_ips = {
+      - backup-server = "192.168.122.206/24"
+      - bastion-host  = "192.168.122.203/24"
+    } -> null
+  ~ all_vm_ips        = {
+      - app-server        = "192.168.122.201/24"
+      + backend-server-1  = "192.168.122.205/24"
+      + backend-server-2  = "192.168.122.209/24"
+      - backup-server     = "192.168.122.206/24"
+      - bastion-host      = "192.168.122.203/24"
+      - ci-server         = "192.168.122.200/24"
+      + database-server   = "192.168.122.207/24"
+      + frontend-server-2 = "192.168.122.208/24"
+      + load-balancer     = "192.168.122.204/24"
+      - monitoring-server = "192.168.122.202/24"
+    }
+  - core_vm_ips       = {
+      - app-server        = "192.168.122.201/24"
+      - ci-server         = "192.168.122.200/24"
+      - monitoring-server = "192.168.122.202/24"
+    } -> null
+  ~ deployment_status = {
+      - additional_vms_deployed = true
+      - core_vms_deployed       = true
+      + existing_vms_deployed   = false
+      + new_vms_deployed        = true
+      - total_additional_vms    = 2
+      - total_core_vms          = 3
+      + total_existing_vms      = 5
+      + total_new_vms           = 5
+    }
+  + existing_vm_ips   = {}
+  + new_vm_ips        = {
+      + backend-server-1  = "192.168.122.205/24"
+      + backend-server-2  = "192.168.122.209/24"
+      + database-server   = "192.168.122.207/24"
+      + frontend-server-2 = "192.168.122.208/24"
+      + load-balancer     = "192.168.122.204/24"
+    }
+  ~ ssh_access        = {
+      - app-server        = "ssh ubuntu@192.168.122.201/24"
+      + backend-server-1  = "ssh ubuntu@192.168.122.205/24"
+      + backend-server-2  = "ssh ubuntu@192.168.122.209/24"
+      - backup-server     = "ssh ubuntu@192.168.122.206/24"
+      - bastion-host      = "ssh ubuntu@192.168.122.203/24"
+      - ci-server         = "ssh ubuntu@192.168.122.200/24"
+      + database-server   = "ssh ubuntu@192.168.122.207/24"
+      + frontend-server-2 = "ssh ubuntu@192.168.122.208/24"
+      + load-balancer     = "ssh ubuntu@192.168.122.204/24"
+      - monitoring-server = "ssh ubuntu@192.168.122.202/24"
+    }
+
+───────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+nicoklaus@nicoklaus-Nitro-AN515-54:~/terraform-proxmox$ 
+
+
+
+
+
+
+
+
+Plan: 5 to add, 0 to change, 5 to destroy.
+
+Changes to Outputs:
+  ~ additional_vm_ips = {
+      - backup-server = "192.168.122.206/24"
+      - bastion-host  = "192.168.122.203/24"
+    }
+  ~ all_vm_ips        = {
+      - app-server        = "192.168.122.201/24"
+      + backend-server-1  = "192.168.122.205/24"
+      + backend-server-2  = "192.168.122.209/24"
+      - backup-server     = "192.168.122.206/24"
+      - bastion-host      = "192.168.122.203/24"
+      - ci-server         = "192.168.122.200/24"
+      + database-server   = "192.168.122.207/24"
+      + frontend-server-2 = "192.168.122.208/24"
+      + load-balancer     = "192.168.122.204/24"
+      - monitoring-server = "192.168.122.202/24"
+    }
+  ~ core_vm_ips       = {
+      - app-server        = "192.168.122.201/24"
+      - ci-server         = "192.168.122.200/24"
+      - monitoring-server = "192.168.122.202/24"
+    }
+  ~ deployment_status = {
+      ~ additional_vms_deployed = true -> false
+      ~ core_vms_deployed       = true -> false
+      + new_vms_deployed        = true
+      + total_new_vms           = 5
+        # (2 unchanged attributes hidden)
+    }
+  + new_vm_ips        = {
+      + backend-server-1  = "192.168.122.205/24"
+      + backend-server-2  = "192.168.122.209/24"
+      + database-server   = "192.168.122.207/24"
+      + frontend-server-2 = "192.168.122.208/24"
+      + load-balancer     = "192.168.122.204/24"
+    }
+  ~ ssh_access        = {
+      - app-server        = "ssh ubuntu@192.168.122.201/24"
+      + backend-server-1  = "ssh ubuntu@192.168.122.205/24"
+      + backend-server-2  = "ssh ubuntu@192.168.122.209/24"
+      - backup-server     = "ssh ubuntu@192.168.122.206/24"
+      - bastion-host      = "ssh ubuntu@192.168.122.203/24"
+      - ci-server         = "ssh ubuntu@192.168.122.200/24"
+      + database-server   = "ssh ubuntu@192.168.122.207/24"
+      + frontend-server-2 = "ssh ubuntu@192.168.122.208/24"
+      + load-balancer     = "ssh ubuntu@192.168.122.204/24"
+      - monitoring-server = "ssh ubuntu@192.168.122.202/24"
+    }
+
+
+
+
+# Importer CI Server (VM 100)
+terraform import 'proxmox_virtual_environment_vm.core_servers["100"]' 100
+
+# Importer App Server (VM 101)
+terraform import 'proxmox_virtual_environment_vm.core_servers["101"]' 101
+
+# Importer Monitoring Server (VM 102)
+terraform import 'proxmox_virtual_environment_vm.core_servers["102"]' 102
+
+
+
+terraform import 'proxmox_virtual_environment_vm.additional_servers["103"]' 103
+
+# Importer Backup Server (VM 106)
+terraform import 'proxmox_virtual_environment_vm.additional_servers["106"]' 106
+
+
+nicoklaus@nicoklaus-Nitro-AN515-54:~/terraform-proxmox$ terraform import 'proxmox_virtual_environment_vm.core_servers["100"]' 100
+╷
+│ Error: Configuration for import target does not exist
+│ 
+│ The configuration for the given import proxmox_virtual_environment_vm.core_servers["100"] does not exist. All target
+│ instances must have an associated configuration to be imported.
+╵
+
+nicoklaus@nicoklaus-Nitro-AN515-54:~/terraform-proxmox$ 
+
+
+
+
+
+ual_environment_vm.infrastructure["203"]: Still creating... [19m51s elapsed]
+proxmox_virtual_environment_vm.infrastructure["210"]: Still creating... [19m51s elapsed]
+proxmox_virtual_environment_vm.infrastructure["201"]: Still creating... [19m51s elapsed]
+proxmox_virtual_environment_vm.infrastructure["205"]: Still creating... [19m51s elapsed]
+proxmox_virtual_environment_vm.infrastructure["208"]: Still creating... [20m01s elapsed]
+proxmox_virtual_environment_vm.infrastructure["204"]: Still creating... [20m01s elapsed]
+proxmox_virtual_environment_vm.infrastructure["202"]: Still creating... [20m01s elapsed]
+proxmox_virtual_environment_vm.infrastructure["203"]: Still creating... [20m01s elapsed]
+proxmox_virtual_environment_vm.infrastructure["210"]: Still creating... [20m01s elapsed]
+proxmox_virtual_environment_vm.infrastructure["201"]: Still creating... [20m01s elapsed]
+proxmox_virtual_environment_vm.infrastructure["205"]: Still creating... [20m01s elapsed]
+proxmox_virtual_environment_vm.infrastructure["204"]: Still creating... [20m11s elapsed]
+proxmox_virtual_environment_vm.infrastructure["203"]: Still creating... [20m11s elapsed]
+proxmox_virtual_environment_vm.infrastructure["210"]: Still creating... [20m11s elapsed]
+proxmox_virtual_environment_vm.infrastructure["205"]: Still creating... [20m11s elapsed]
+╷
+│ Error: error waiting for VM clone: task "UPID:nico:00003EF4:00063CA9:68E125D8:qmclone:9000:root@pam:" failed to complete with exit code: clone failed: can't lock file '/var/lock/pve-manager/pve-storage-local-lvm' - got timeout
+│ 
+│   with proxmox_virtual_environment_vm.infrastructure["207"],
+│   on main.tf line 63, in resource "proxmox_virtual_environment_vm" "infrastructure":
+│   63: resource "proxmox_virtual_environment_vm" "infrastructure" {
+│ 
+╵
+╷
+│ Error: error waiting for VM clone: context error while waiting for task "UPID:nico:00003F19:00063D14:68E125D9:qmclone:9000:root@pam:" to complete: context deadline exceeded
+│ 
+│   with proxmox_virtual_environment_vm.infrastructure["203"],
+│   on main.tf line 63, in resource "proxmox_virtual_environment_vm" "infrastructure":
+│   63: resource "proxmox_virtual_environment_vm" "infrastructure" {
+│ 
+╵
+╷
+│ Error: error waiting for VM clone: task "UPID:nico:00003F04:00063CD3:68E125D8:qmclone:9000:root@pam:" failed to complete with exit code: clone failed: can't lock file '/var/lock/pve-manager/pve-storage-local-lvm' - got timeout
+│ 
+│   with proxmox_virtual_environment_vm.infrastructure["209"],
+│   on main.tf line 63, in resource "proxmox_virtual_environment_vm" "infrastructure":
+│   63: resource "proxmox_virtual_environment_vm" "infrastructure" {
+│ 
+╵
+╷
+│ Error: error waiting for VM clone: context error while waiting for task "UPID:nico:00003F33:00063D68:68E125DA:qmclone:9000:root@pam:" to complete: context deadline exceeded
+│ 
+│   with proxmox_virtual_environment_vm.infrastructure["201"],
+│   on main.tf line 63, in resource "proxmox_virtual_environment_vm" "infrastructure":
+│   63: resource "proxmox_virtual_environment_vm" "infrastructure" {
+│ 
+╵
+╷
+│ Error: error waiting for VM clone: context error while waiting for task "UPID:nico:00003EC7:00063C33:68E125D7:qmclone:9000:root@pam:" to complete: context deadline exceeded
+│ 
+│   with proxmox_virtual_environment_vm.infrastructure["202"],
+│   on main.tf line 63, in resource "proxmox_virtual_environment_vm" "infrastructure":
+│   63: resource "proxmox_virtual_environment_vm" "infrastructure" {
+│ 
+╵
+╷
+│ Error: error waiting for VM clone: task "UPID:nico:00003EDC:00063C67:68E125D7:qmclone:9000:root@pam:" failed to complete with exit code: clone failed: can't lock file '/var/lock/pve-manager/pve-storage-local-lvm' - got timeout
+│ 
+│   with proxmox_virtual_environment_vm.infrastructure["206"],
+│   on main.tf line 63, in resource "proxmox_virtual_environment_vm" "infrastructure":
+│   63: resource "proxmox_virtual_environment_vm" "infrastructure" {
+│ 
+╵
+╷
+│ Error: error waiting for VM clone: context error while waiting for task "UPID:nico:00003ECA:00063C42:68E125D7:qmclone:9000:root@pam:" to complete: context deadline exceeded
+│ 
+│   with proxmox_virtual_environment_vm.infrastructure["204"],
+│   on main.tf line 63, in resource "proxmox_virtual_environment_vm" "infrastructure":
+│   63: resource "proxmox_virtual_environment_vm" "infrastructure" {
+│ 
+╵
+╷
+│ Error: error waiting for VM clone: context error while waiting for task "UPID:nico:00003EC6:00063C32:68E125D7:qmclone:9000:root@pam:" to complete: context deadline exceeded
+│ 
+│   with proxmox_virtual_environment_vm.infrastructure["208"],
+│   on main.tf line 63, in resource "proxmox_virtual_environment_vm" "infrastructure":
+│   63: resource "proxmox_virtual_environment_vm" "infrastructure" {
+│ 
+╵
+╷
+│ Error: error waiting for VM clone: context error while waiting for task "UPID:nico:00003F4B:00063DA9:68E125DA:qmclone:9000:root@pam:" to complete: context deadline exceeded
+│ 
+│   with proxmox_virtual_environment_vm.infrastructure["210"],
+│   on main.tf line 63, in resource "proxmox_virtual_environment_vm" "infrastructure":
+│   63: resource "proxmox_virtual_environment_vm" "infrastructure" {
+│ 
+╵
+╷
+│ Error: error waiting for VM clone: context error while waiting for task "UPID:nico:00003F62:00063DDF:68E125DB:qmclone:9000:root@pam:" to complete: context deadline exceeded
+│ 
+│   with proxmox_virtual_environment_vm.infrastructure["205"],
+│   on main.tf line 63, in resource "proxmox_virtual_environment_vm" "infrastructure":
+│   63: resource "proxmox_virtual_environment_vm" "infrastructure" {
+│ 
+╵
+
+
+qm destroy 201
+qm destroy 202
+qm destroy 203
+qm destroy 204
+qm destroy 205
+qm destroy 206
+qm destroy 207
+qm destroy 208
+qm destroy 209
+qm destroy 210
+
+
+terraform apply -var="deployment_step=1"
+
+
+nitializing the backend...
+╷
+│ Error: Terraform encountered problems during initialisation, including problems
+│ with the configuration, described below.
+│ 
+│ The Terraform configuration must be valid before initialization so that
+│ Terraform can determine which modules and providers need to be installed.
+│ 
+│ 
+╵
+╷
+│ Error: Invalid expression
+│ 
+│   on main.tf line 43, in locals:
+│   43:   current_vms = var.deployment_step == 1 ? local.step1_vms : 
+│   44:                 var.deployment_step == 2 ? local.step2_vms :
+│ 
+│ Expected the start of an expression, but found an invalid expression token.
+╵
+╷
+│ Error: Argument or block definition required
+│ 
+│   on main.tf line 44, in locals:
+│   44:                 var.deployment_step == 2 ? local.step2_vms :
+│ 
+│ An argument or block definition is required here. To set an argument, use the equals sign "=" to introduce the argument
+│ value.
+╵
+╷
+│ Error: Argument or block definition required
+│ 
+│   on main.tf line 45, in locals:
+│   45:                 var.deployment_step == 3 ? local.step3_vms :
+│ 
+│ An argument or block definition is required here. To set an argument, use the equals sign "=" to introduce the argument
+│ value.
+╵
+╷
+│ Error: Argument or block definition required
+│ 
+│   on main.tf line 46, in locals:
+│   46:                 var.deployment_step == 4 ? local.step4_vms : {}
+│ 
+│ An argument or block definition is required here. To set an argument, use the equals sign "=" to introduce the argument
+│ value.
+╵
+nicoklaus@nicoklaus-Nitro-AN515-54:~/terraform-proxmox$ terraform apply -var="deployment_step=1"
+╷
+│ Error: Invalid expression
+│ 
+│   on main.tf line 43, in locals:
+│   43:   current_vms = var.deployment_step == 1 ? local.step1_vms : 
+│   44:                 var.deployment_step == 2 ? local.step2_vms :
+│ 
+│ Expected the start of an expression, but found an invalid expression token.
+╵
+╷
+│ Error: Argument or block definition required
+│ 
+│   on main.tf line 44, in locals:
+│   44:                 var.deployment_step == 2 ? local.step2_vms :
+│ 
+│ An argument or block definition is required here. To set an argument, use the equals sign "=" to introduce the argument
+│ value.
+╵
+╷
+│ Error: Argument or block definition required
+│ 
+│   on main.tf line 45, in locals:
+│   45:                 var.deployment_step == 3 ? local.step3_vms :
+│ 
+│ An argument or block definition is required here. To set an argument, use the equals sign "=" to introduce the argument
+│ value.
+╵
+╷
+│ Error: Argument or block definition required
+│ 
+│   on main.tf line 46, in locals:
+│   46:                 var.deployment_step == 4 ? local.step4_vms : {}
+│ 
+│ An argument or block definition is required here. To set an argument, use the equals sign "=" to introduce the argument
+│ value.
+╵
+nicoklaus@nicoklaus-Nitro-AN515-54:~/terraform-proxmox$ 
+
+
+terraform apply -var="deployment_step=2"
+
+ :àqx
+
+ terraform apply -var="deploy_step1=true" -var="deploy_step2=false" -var="deploy_step3=false" -var="deploy_step4=false"
+
+ terraform apply -var="deploy_step1=true" -var="deploy_step2=true" -var="deploy_step3=false" -var="deploy_step4=false"
+
+
+
+ Étape 1: terraform apply -parallelism=1 -var="deploy_step1=true"
+
+
+terraform plan -var="deploy_step1=true" -var="deploy_step2=true"
+
+terraform apply -parallelism=1 -var="deploy_step1=true" -var="deploy_step2=true"
+
+
+
+  }
+
+Plan: 4 to add, 0 to change, 2 to destroy.
+
+Changes to Outputs:
+  ~ all_vm_ips        = {
+      + frontend-server-1 = "192.168.122.203/24"
+      + frontend-server-2 = "192.168.122.204/24"
+        # (2 unchanged attributes hidden)
+    }
+  ~ deployment_status = {
+      ~ step2_deployed = false -> true
+        # (4 unchanged attributes hidden)
+    }
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value:
+
+  terraform plan -var="deploy_step1=true" -var="deploy_step2=true"
+
+
+
+   + memory {
+          + dedicated = 2048
+          + floating  = 0
+          + shared    = 0
+        }
+
+      + network_device {
+          + bridge      = "vmbr0"
+          + enabled     = true
+          + firewall    = false
+          + mac_address = (known after apply)
+          + model       = "virtio"
+          + mtu         = 0
+          + queues      = 0
+          + rate_limit  = 0
+          + vlan_id     = 0
+        }
+    }
+
+Plan: 4 to add, 0 to change, 2 to destroy.
+
+Changes to Outputs:
+  ~ all_vm_ips        = {
+      + frontend-server-1 = "192.168.122.203/24"
+      + frontend-server-2 = "192.168.122.204/24"
+        # (2 unchanged attributes hidden)
+    }
+  ~ deployment_status = {
+      ~ step2_deployed = false -> true
+        # (4 unchanged attributes hidden)
+    }
+
+
+terraform plan -var="deploy_step1=true" -var="deploy_step2=true" | grep -E "will be destroyed|proxmox_virtual_environment_vm"
+
+nicoklaus@nicoklaus-Nitro-AN515-54:~/terraform-proxmox$ terraform plan -var="deploy_step1=true" -var="deploy_step2=true" | grep -E "will be destroyed|proxmox_virtual_environment_vm"
+proxmox_virtual_environment_vm.step1["202"]: Refreshing state... [id=202]
+proxmox_virtual_environment_vm.step1["201"]: Refreshing state... [id=201]
+  # proxmox_virtual_environment_vm.step1["201"] must be replaced
+-/+ resource "proxmox_virtual_environment_vm" "step1" {
+  # proxmox_virtual_environment_vm.step1["202"] must be replaced
+-/+ resource "proxmox_virtual_environment_vm" "step1" {
+  # proxmox_virtual_environment_vm.step2["203"] will be created
+  + resource "proxmox_virtual_environment_vm" "step2" {
+  # proxmox_virtual_environment_vm.step2["204"] will be created
+  + resource "proxmox_virtual_environment_vm" "step2" {
+nicoklaus@nicoklaus-Nitro-AN515-54:~/terraform-proxmox$
+
+terraform plan -target=proxmox_virtual_environment_vm.step2 -var="deploy_step1=true" -var="deploy_step2=true"
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+╷
+│ Warning: Resource targeting is in effect
+│ 
+│ You are creating a plan with the -target option, which means that the result of this plan may not represent all of the changes requested
+│ by the current configuration.
+│ 
+│ The -target option is not for routine use, and is provided only for exceptional situations such as recovering from errors or mistakes, or
+│ when Terraform specifically suggests to use it as part of an error message.
+╵
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform
+apply" now.
+
+terraform plan -out=tfplan -target=proxmox_virtual_environment_vm.step2 -var="deploy_step1=true" -var="deploy_step2=true"
+terraform apply -parallelism=1 tfplan
+
+
+
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+all_vm_ips = {
+  "bastion-host" = "192.168.122.201/24"
+  "load-balancer" = "192.168.122.202/24"
+}
+deployment_status = {
+  "step1_deployed" = true
+  "step2_deployed" = false
+  "step3_deployed" = false
+  "step4_deployed" = false
+  "step5_deployed" = false
+}
+nicoklaus@nicoklaus-Nitro-AN515-54:~/terraform-proxmox$ 
+
+
+
+terraform apply -refresh-only -var="deploy_step1=true" -var="deploy_step2=true"
+terraform output all_vm_ips
+terraform output deployment_status
+
+terraform plan -out=tfplan -target=proxmox_virtual_environment_vm.step3 -var="deploy_step1=true" -var="deploy_step2=true" -var="deploy_step3=true"
+terraform apply -parallelism=1 tfplan
+
+
+
+
+Outputs:
+
+all_vm_ips = {
+    bastion-host      = "192.168.122.201/24"
+    frontend-server-1 = "192.168.122.203/24"
+    frontend-server-2 = "192.168.122.204/24"
+    load-balancer     = "192.168.122.202/24"
+}
+deployment_status = {
+    step1_deployed = true
+    step2_deployed = true
+    step3_deployed = false
+    step4_deployed = false
+    step5_deployed = false
+}
+nicoklaus@nicoklaus-Nitro-AN515-54:~/terraform-proxmox$ 
+
+
+terraform plan -out=tfplan -target=proxmox_virtual_environment_vm.step4 -var="deploy_step1=true" -var="deploy_step2=true" -var="deploy_step3=true" -var="deploy_step4=true"
+terraform apply -parallelism=1 tfplan
+
+
+
+terraform plan -out=tfplan -target=proxmox_virtual_environment_vm.step5 -var="deploy_step1=true" -var="deploy_step2=true" -var="deploy_step3=true" -var="deploy_step4=true" -var="deploy_step5=true"
+terraform apply -parallelism=1 tfplan
+
+
+# Test de connectivité
+ansible all -i inventory.ini -m ping
+
+# Déploiement par rôle
+ansible-playbook -i inventory.ini bastion.yml
+ansible-playbook -i inventory.ini loadbalancer.yml
+ansible-playbook -i inventory.ini frontend.yml
+ansible-playbook -i inventory.ini backend.yml
+ansible-playbook -i inventory.ini database.yml
+ansible-playbook -i inventory.ini cicd.yml
+ansible-playbook -i inventory.ini backup.yml
+ansible-playbook -i inventory.ini monitoring.yml
+ansible-playbook -i inventory.ini waf.yml
+
+
+
+nicoklaus@nicoklaus-Nitro-AN515-54:~/ansible-devops$ ansible all -i inventory.ini -m ping
+192.168.122.202 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+192.168.122.206 | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.122.206 port 22: Connection refused",
+    "unreachable": true
+}
+192.168.122.205 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+192.168.122.207 | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.122.207 port 22: Connection refused",
+    "unreachable": true
+}
+192.168.122.208 | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.122.208 port 22: Connection refused",
+    "unreachable": true
+}
+192.168.122.209 | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.122.209 port 22: Connection refused",
+    "unreachable": true
+}
+192.168.122.210 | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.122.210 port 22: Connection refused",
+    "unreachable": true
+}
+192.168.122.211 | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.122.211 port 22: Connection refused",
+    "unreachable": true
+}
+192.168.122.203 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+192.168.122.201 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+192.168.122.204 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+nicoklaus@nicoklaus-Nitro-AN515-54:~/ansible-devops$ 
+

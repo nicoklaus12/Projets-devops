@@ -1,0 +1,123 @@
+
+- hosts: app_server
+  become: true
+  tasks:
+    - name: Préflight | terminer une config dpkg interrompue
+      command: dpkg --configure -a
+      changed_when: false
+
+    - name: Préflight | corriger dépendances cassées
+      apt:
+        name: "*"
+        state: fixed
+        update_cache: true
+
+    - name: Installer Node.js
+      apt:
+        name: [nodejs, npm, nginx]
+        state: present
+        update_cache: true
+
+    - name: Créer le dossier de l'application
+      file:
+        path: /opt/demo-app
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+
+    - name: Créer l'application de démonstration
+      copy:
+        content: |
+          const express = require('express');
+          const app = express();
+          const port = 3000;
+
+          app.get('/', (req, res) => {
+            res.json({
+              message: 'Hello from DevOps Infrastructure!',
+              timestamp: new Date().toISOString(),
+              server: 'app-server',
+              status: 'running'
+            });
+          });
+
+          app.get('/health', (req, res) => {
+            res.json({ status: 'healthy' });
+          });
+
+          app.listen(port, () => {
+            console.log(`Demo app running on port ${port}`);
+          });
+        dest: /opt/demo-app/app.js
+
+    - name: Créer package.json
+      copy:
+        content: |
+          {
+            "name": "demo-app",
+            "version": "1.0.0",
+            "main": "app.js",
+            "scripts": {
+              "start": "node app.js"
+            },
+            "dependencies": {
+              "express": "^4.18.0"
+            }
+          }
+        dest: /opt/demo-app/package.json
+
+    - name: Installer les dépendances
+      command: npm install
+      args:
+        chdir: /opt/demo-app
+
+    - name: Créer le service systemd
+      copy:
+        content: |
+          [Unit]
+          Description=Demo App
+          After=network.target
+
+          [Service]
+          Type=simple
+          User=ubuntu
+          WorkingDirectory=/opt/demo-app
+          ExecStart=/usr/bin/node app.js
+          Restart=always
+
+          [Install]
+          WantedBy=multi-user.target
+        dest: /etc/systemd/system/demo-app.service
+
+    - name: Démarrer l'application
+      systemd:
+        name: demo-app
+        state: started
+        enabled: true
+        daemon_reload: true
+
+    - name: Configurer Nginx
+      copy:
+        content: |
+          server {
+              listen 80;
+              server_name _;
+
+              location / {
+                  proxy_pass http://localhost:3000;
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+              }
+          }
+        dest: /etc/nginx/sites-available/demo-app
+
+    - name: Activer le site Nginx
+      file:
+        src: /etc/nginx/sites-available/demo-app
+        dest: /etc/nginx/sites-enabled/demo-app
+        state: link
+
+    - name: Redémarrer Nginx
+      service:
+        name: nginx
+        state: restarted

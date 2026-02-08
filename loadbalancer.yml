@@ -1,0 +1,26 @@
+- hosts: load_balancer
+  become: true
+  tasks:
+    - name: Install HAProxy
+      apt:
+        name: haproxy
+        state: present
+    
+    - name: Configure HAProxy
+      copy:
+        dest: /etc/haproxy/haproxy.cfg
+        content: |
+          global
+              daemon
+          defaults
+              mode http
+              timeout connect 5000ms
+              timeout client 50000ms
+              timeout server 50000ms
+          frontend web_frontend
+              bind *:80
+              default_backend web_servers
+          backend web_servers
+              balance roundrobin
+              server frontend1 192.168.122.203:80 check
+              server frontend2 192.168.122.204:80 check

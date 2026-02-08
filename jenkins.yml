@@ -1,0 +1,42 @@
+- hosts: ci_server
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Préflight | terminer une config dpkg interrompue
+      command: dpkg --configure -a
+      changed_when: false
+
+    - name: Préflight | corriger dépendances cassées
+      apt:
+        name: "*"
+        state: fixed
+        update_cache: true
+
+    - name: Installer Java 17 (requis par Jenkins)
+      apt:
+        name: openjdk-17-jre
+        state: present
+        update_cache: true
+
+    - name: Ajouter la clé du dépôt Jenkins
+      apt_key:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+        state: present
+
+    - name: Ajouter le dépôt Jenkins LTS
+      apt_repository:
+        repo: "deb https://pkg.jenkins.io/debian-stable binary/"
+        state: present
+
+    - name: Installer Jenkins
+      apt:
+        name: jenkins
+        state: present
+        update_cache: true
+
+    - name: Démarrer Jenkins au boot et maintenant
+      service:
+        name: jenkins
+        state: started
+        enabled: true

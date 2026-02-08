@@ -1,0 +1,77 @@
+- hosts: ci_server
+  become: true
+  tasks:
+    - name: Installer les dépendances pour le pipeline
+      apt:
+        name: [git, curl, wget, unzip, ansible]
+        state: present
+        update_cache: true
+
+    - name: Créer le répertoire des jobs Jenkins
+      file:
+        path: /var/lib/jenkins/jobs
+        state: directory
+        owner: jenkins
+        group: jenkins
+        mode: '0755'
+
+    - name: Créer le répertoire du job demo-pipeline
+      file:
+        path: /var/lib/jenkins/jobs/demo-pipeline
+        state: directory
+        owner: jenkins
+        group: jenkins
+        mode: '0755'
+
+    - name: Créer le pipeline simple
+      copy:
+        content: |
+          pipeline {
+              agent any
+              
+              stages {
+                  stage('Checkout') {
+                      steps {
+                          echo 'Cloning repository...'
+                          git 'https://github.com/your-repo/demo-app.git'
+                      }
+                  }
+                  
+                  stage('Test') {
+                      steps {
+                          echo 'Running tests...'
+                          sh 'npm test'
+                      }
+                  }
+                  
+                  stage('Build') {
+                      steps {
+                          echo 'Building application...'
+                          sh 'npm install'
+                      }
+                  }
+                  
+                  stage('Deploy') {
+                      steps {
+                          echo 'Deploying to app server...'
+                          sh 'ansible-playbook -i inventory.ini app-deployment.yml'
+                      }
+                  }
+              }
+              
+              post {
+                  always {
+                      echo 'Pipeline completed!'
+                  }
+              }
+          }
+        dest: /var/lib/jenkins/jobs/demo-pipeline/config.xml
+        owner: jenkins
+        group: jenkins
+        mode: '0644'
+
+    - name: Redémarrer Jenkins
+      service:
+        name: jenkins
+        state: restarted
+

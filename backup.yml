@@ -1,0 +1,12 @@
+- hosts: backup
+  become: true
+  tasks:
+    - name: Install backup tools
+      apt:
+        name: [rsync, rsnapshot]
+        state: present
+    
+    - name: Create backup directory
+      file:
+        path: /backup
+        state: directory

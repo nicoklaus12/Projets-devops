@@ -1,0 +1,18 @@
+- hosts: waf
+  become: true
+  tasks:
+    - name: Install Nginx + ModSecurity
+      apt:
+        name: [nginx, libnginx-mod-security, modsecurity-crs]
+        state: present
+    
+    - name: Configure WAF
+      copy:
+        dest: /etc/nginx/sites-available/waf
+        content: |
+          server {
+              listen 80;
+              location / {
+                  proxy_pass http://192.168.122.202;
+              }
+          }

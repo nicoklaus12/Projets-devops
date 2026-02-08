@@ -1,0 +1,25 @@
+- hosts: all
+  become: true
+  vars:
+    node_exporter_version: "1.8.2"
+  tasks:
+    - name: Install node_exporter
+      shell: |
+        cd /tmp
+        curl -sL -O https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz
+        tar xzf node_exporter-*.tar.gz
+        install -m 0755 node_exporter-*/node_exporter /usr/local/bin/node_exporter
+        useradd --no-create-home --shell /usr/sbin/nologin nodeexp || true
+        cat >/etc/systemd/system/node_exporter.service <<'UNIT'
+        [Unit]
+        Description=Node Exporter
+        [Service]
+        User=nodeexp
+        ExecStart=/usr/local/bin/node_exporter
+        [Install]
+        WantedBy=multi-user.target
+        UNIT
+        systemctl daemon-reload
+        systemctl enable --now node_exporter
+      args:
+        creates: /usr/local/bin/node_exporter
